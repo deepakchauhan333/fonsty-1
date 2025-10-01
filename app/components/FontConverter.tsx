@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { FiCopy, FiCheck } from 'react-icons/fi';
+import { generateProceduralStyle } from '@/lib/procedural-fonts';
 
 interface FontConverterProps {
   fontName: string;
@@ -10,41 +11,11 @@ interface FontConverterProps {
 
 export default function FontConverter({ fontName, fontSlug }: FontConverterProps) {
   const [inputText, setInputText] = useState('Type your text here');
-  const [convertedText, setConvertedText] = useState('');
+  const [convertedText, setConvertedText] = useState(generateProceduralStyle(fontSlug, 'Type your text here'));
   const [copied, setCopied] = useState(false);
 
   // Convert text based on font style
-  const convertText = (text: string): string => {
-    // Simple conversion logic - you can expand this
-    const conversions: Record<string, (t: string) => string> = {
-      'bold': (t) => t.split('').map(c => {
-        const code = c.charCodeAt(0);
-        if (code >= 65 && code <= 90) return String.fromCharCode(code + 119743);
-        if (code >= 97 && code <= 122) return String.fromCharCode(code + 119737);
-        return c;
-      }).join(''),
-      'italic': (t) => t.split('').map(c => {
-        const code = c.charCodeAt(0);
-        if (code >= 65 && code <= 90) return String.fromCharCode(code + 119795);
-        if (code >= 97 && code <= 122) return String.fromCharCode(code + 119789);
-        return c;
-      }).join(''),
-      'cursive': (t) => t.split('').map(c => {
-        const code = c.charCodeAt(0);
-        if (code >= 65 && code <= 90) return String.fromCharCode(code + 119951);
-        if (code >= 97 && code <= 122) return String.fromCharCode(code + 119945);
-        return c;
-      }).join(''),
-    };
-
-    // Detect font type from slug
-    if (fontSlug.includes('bold')) return conversions.bold(text);
-    if (fontSlug.includes('italic')) return conversions.italic(text);
-    if (fontSlug.includes('cursive')) return conversions.cursive(text);
-    
-    // Default: return stylized version
-    return `✨ ${text} ✨`;
-  };
+  const convertText = (text: string): string => generateProceduralStyle(fontSlug, text);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newText = e.target.value;
