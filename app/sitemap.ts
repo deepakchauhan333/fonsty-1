@@ -1,5 +1,6 @@
 // app/sitemap.ts
 import { PLATFORMS, FONT_TYPES, PLATFORM_NAMES } from '@/lib/constants';
+import { THOUSAND_FONTS } from '@/lib/thousand-fonts';
 
 // Define the sitemap configuration type
 type Sitemap = Array<{
@@ -56,8 +57,16 @@ export default async function sitemap(): Promise<Sitemap> {
     }
   }
 
+  // Add 1000+ font pages
+  const fontRoutes: Sitemap = THOUSAND_FONTS.map((fontSlug) => ({
+    url: `${baseUrl}/font/${fontSlug}`,
+    lastModified: now,
+    changeFrequency: 'weekly' as const,
+    priority: 0.85,
+  }));
+
   // Sort routes by priority (highest first) then by URL
-  return [...routes, ...dynamicRoutes].sort((a, b) => {
+  return [...routes, ...dynamicRoutes, ...fontRoutes].sort((a, b) => {
     if (a.priority !== b.priority) {
       return b.priority - a.priority; // Higher priority first
     }
