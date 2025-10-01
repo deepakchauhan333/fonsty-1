@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Ensure proper text rendering for all elements */
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-800 font-sans;
+    /* Ensure proper Unicode character rendering */
+    font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+    font-kerning: normal;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Apply font to all elements */
+  * {
+    @apply font-sans;
+    /* Ensure proper Unicode character rendering */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure proper Unicode character rendering in code blocks */
+  code, pre, kbd, samp, var, tt, input, textarea, select {
+    font-family: inherit;
+    font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+    font-kerning: normal;
+  }
+}
