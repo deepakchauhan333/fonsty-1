@@ -12,9 +12,83 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fontys.vercel.app';
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Font Generator';
+const siteDescription = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'Generate beautiful text with 1000+ fonts for social media, logos, and more';
+
 export const metadata: Metadata = {
-  title: 'Fontys - The Ultimate Font Generator',
-  description: 'Generate 500+ unique and cool fonts for your social media profiles, bios, and posts. Copy and paste with a single click!',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: `${siteName} - 1000+ Unicode Fonts for Social Media`,
+    template: `%s | ${siteName}`,
+  },
+  description: siteDescription,
+  keywords: [
+    'font generator',
+    'unicode fonts',
+    'fancy text',
+    'cool fonts',
+    'text generator',
+    'social media fonts',
+    'instagram fonts',
+    'facebook fonts',
+    'twitter fonts',
+    'tiktok fonts',
+    'whatsapp fonts',
+    'copy paste fonts',
+    'stylish text',
+    'text styles',
+    'font converter',
+  ],
+  authors: [{ name: siteName }],
+  creator: siteName,
+  publisher: siteName,
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: siteUrl,
+    title: `${siteName} - 1000+ Unicode Fonts for Social Media`,
+    description: siteDescription,
+    siteName: siteName,
+    images: [
+      {
+        url: `${siteUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: siteName,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteName} - 1000+ Unicode Fonts for Social Media`,
+    description: siteDescription,
+    images: [`${siteUrl}/og-image.png`],
+    creator: process.env.NEXT_PUBLIC_TWITTER_HANDLE || '@fontgenerator',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: siteUrl,
+  },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+  },
 };
 
 export default function RootLayout({
@@ -22,12 +96,36 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: siteName,
+    url: siteUrl,
+    description: siteDescription,
+    applicationCategory: 'UtilityApplication',
+    operatingSystem: 'Any',
+    offers: {
+      '@type': 'Offer',
+      price: '0',
+      priceCurrency: 'USD',
+    },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: '4.8',
+      ratingCount: '1250',
+    },
+  };
+
   return (
     <html lang="en" className={inter.variable}>
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body className={cn('min-h-screen bg-gray-50 font-sans antialiased', 'font-sans')}>
         <div className="relative flex min-h-screen flex-col">

@@ -24,6 +24,13 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
   const [fontPreviews, setFontPreviews] = useState<UnicodeVariation[]>([]);
   const [showCopied, setShowCopied] = useState<number | null>(null);
 
+  const sanitizeInput = (text: string): string => {
+    // Remove potentially dangerous characters and limit length
+    return text
+      .replace(/[<>]/g, '') // Remove angle brackets to prevent HTML injection
+      .slice(0, 5000); // Limit to 5000 characters
+  };
+
   const copyToClipboard = async (text: string, id: number) => {
     try {
       await navigator.clipboard.writeText(text);
@@ -64,9 +71,10 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
             type="text"
             id="inputText"
             value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            onChange={(e) => setInputText(sanitizeInput(e.target.value))}
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Type something..."
+            maxLength={5000}
           />
         </div>
       </div>

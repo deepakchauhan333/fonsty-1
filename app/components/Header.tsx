@@ -33,7 +33,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null);
   const pathname = usePathname();
-  const currentPlatform = pathname.split('/')[1];
+  const currentPlatform = pathname?.split('/')[1] || '';
 
   const toggleDropdown = (platformId: string) => {
     setSelectedPlatform(selectedPlatform === platformId ? null : platformId);

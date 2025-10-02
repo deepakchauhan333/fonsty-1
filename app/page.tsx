@@ -64,6 +64,13 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [showCopied, setShowCopied] = useState<number | null>(null);
 
+  const sanitizeInput = (text: string): string => {
+    // Remove potentially dangerous characters and limit length
+    return text
+      .replace(/[<>]/g, '') // Remove angle brackets to prevent HTML injection
+      .slice(0, 5000); // Limit to 5000 characters
+  };
+
   // Load all fonts on initial render with 'demo' text
   useEffect(() => {
     try {
@@ -151,10 +158,11 @@ export default function Home() {
             <input
               type="text"
               value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
+              onChange={(e) => setInputText(sanitizeInput(e.target.value))}
               placeholder="Type your name or text..."
               className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
               autoFocus
+              maxLength={5000}
             />
             {inputText && (
               <button

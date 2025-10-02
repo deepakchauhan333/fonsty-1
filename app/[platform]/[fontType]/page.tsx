@@ -5,19 +5,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { generateSEOContent } from '@/lib/seo-content-generator';
 
-// Format URL parameter to match our font type
-export function formatFontTypeParam(fontType: string): string {
-  return fontType
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^\-|\-$/g, '');
-}
-
-// Get font type from URL parameter
-export function getFontTypeFromParam(param: string): string | undefined {
-  const formattedParam = formatFontTypeParam(param);
-  return FONT_TYPES.find(ft => formatFontTypeParam(ft) === formattedParam);
-}
+// Import utility functions
+import { formatFontTypeParam, getFontTypeFromParam } from '@/lib/font-utils';
 
 interface PageProps {
   params: {
@@ -28,7 +17,7 @@ interface PageProps {
 
 export default function Page({ params }: PageProps) {
   const platform = params.platform.toLowerCase();
-  const fontType = getFontTypeFromParam(params.fontType);
+  const fontType = getFontTypeFromParam(params.fontType, FONT_TYPES);
   
   if (!PLATFORMS.includes(platform as PlatformType) || !fontType) {
     notFound();
@@ -48,34 +37,32 @@ export default function Page({ params }: PageProps) {
   const platformName = PLATFORM_NAMES[platform] || platform;
   const formattedPlatformName = platformName.split(' ')[0]; // Get just the first word for the breadcrumb
   
-  // Generate SEO content
   const seoContent = generateSEOContent(platform, fontType, FONT_TYPES as unknown as string[]);
 
   return (
     <div className="container mx-auto px-4 py-8">
       <nav className="flex items-center text-sm text-gray-600 mb-6" aria-label="Breadcrumb">
-        <ol className="inline-flex items-center space-x-1 md:space-x-3">
+        <ol className="flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
-            <Link href="/" className="hover:text-blue-600">
+            <Link href="/" className="text-blue-600 hover:text-blue-800">
               Home
             </Link>
           </li>
           <li>
             <div className="flex items-center">
-              <svg className="w-3 h-3 mx-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
-              </svg>
-              <Link href={`/${platform}`} className="hover:text-blue-600">
-                {formattedPlatformName} Fonts
+              <span className="mx-2 text-gray-400">/</span>
+              <Link 
+                href={`/${platform}`} 
+                className="text-blue-600 hover:text-blue-800"
+              >
+                {platformName}
               </Link>
             </div>
           </li>
           <li aria-current="page">
             <div className="flex items-center">
-              <svg className="w-3 h-3 mx-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd"></path>
-              </svg>
-              <span className="ml-1 font-medium text-gray-700">{title}</span>
+              <span className="mx-2 text-gray-400">/</span>
+              <span className="text-gray-500">{title}</span>
             </div>
           </li>
         </ol>
@@ -163,14 +150,14 @@ export default function Page({ params }: PageProps) {
   );
 }
 
-export async function generateStaticParams() {
-  const params = [];
+export function generateStaticParams(): Array<{ platform: string; fontType: string }> {
+  const params: Array<{ platform: string; fontType: string }> = [];
   
   for (const platform of PLATFORMS) {
     for (const fontType of FONT_TYPES) {
       params.push({
         platform,
-        fontType,
+        fontType: formatFontTypeParam(fontType),
       });
     }
   }

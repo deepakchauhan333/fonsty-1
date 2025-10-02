@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { THOUSAND_FONTS, getFontDisplayName, getFontDescription, getRelatedFonts } from '@/lib/thousand-fonts';
+import { getFontMapping } from '@/lib/google-fonts-map';
 import FontConverter from '@/app/components/FontConverter';
 
 interface PageProps {
@@ -13,7 +14,6 @@ interface PageProps {
 export default function FontPage({ params }: PageProps) {
   const { slug } = params;
   
-  // Check if font exists
   if (!THOUSAND_FONTS.includes(slug as any)) {
     notFound();
   }
@@ -21,6 +21,7 @@ export default function FontPage({ params }: PageProps) {
   const fontName = getFontDisplayName(slug);
   const description = getFontDescription(slug);
   const relatedFonts = getRelatedFonts(slug, 25);
+  const { fontName: googleFontName, fontUrl } = getFontMapping(slug);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -43,7 +44,10 @@ export default function FontPage({ params }: PageProps) {
         </p>
 
         {/* Font Converter */}
-        <FontConverter fontName={fontName} fontSlug={slug} />
+        <>
+          {fontUrl && <link rel="stylesheet" href={fontUrl} />}
+          <FontConverter fontName={fontName} fontSlug={slug} googleFontName={googleFontName} />
+        </>
 
         {/* SEO Content Section */}
         <article className="mt-12 max-w-4xl mx-auto prose prose-lg">
@@ -151,7 +155,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const fontName = getFontDisplayName(slug);
   const description = getFontDescription(slug);
   const title = `${fontName} Font Generator - Free Online Text Converter`;
-  const url = `https://yourdomain.com/font/${slug}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fontys.vercel.app';
+  const url = `${siteUrl}/font/${slug}`;
 
   return {
     title,

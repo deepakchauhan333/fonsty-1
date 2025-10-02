@@ -1,26 +1,31 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { FiCopy, FiCheck } from 'react-icons/fi';
-import { generateProceduralStyle } from '@/lib/procedural-fonts';
 
 interface FontConverterProps {
   fontName: string;
   fontSlug: string;
+  googleFontName?: string; // The CSS font-family name
 }
 
-export default function FontConverter({ fontName, fontSlug }: FontConverterProps) {
+export default function FontConverter({ fontName, fontSlug, googleFontName }: FontConverterProps) {
   const [inputText, setInputText] = useState('Type your text here');
-  const [convertedText, setConvertedText] = useState(generateProceduralStyle(fontSlug, 'Type your text here'));
   const [copied, setCopied] = useState(false);
 
-  // Convert text based on font style
-  const convertText = (text: string): string => generateProceduralStyle(fontSlug, text);
+  // With real fonts, the conversion is visual. The text content remains the same.
+  const convertedText = inputText;
+
+  const sanitizeInput = (text: string): string => {
+    // Remove potentially dangerous characters and limit length
+    return text
+      .replace(/[<>]/g, '') // Remove angle brackets to prevent HTML injection
+      .slice(0, 5000); // Limit to 5000 characters
+  };
 
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newText = e.target.value;
-    setInputText(newText);
-    setConvertedText(convertText(newText));
+    const sanitized = sanitizeInput(e.target.value);
+    setInputText(sanitized);
   };
 
   const copyToClipboard = async () => {
@@ -36,10 +41,11 @@ export default function FontConverter({ fontName, fontSlug }: FontConverterProps
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label htmlFor="inputText" className="block text-sm font-medium text-gray-700 mb-2">
           Input Text
         </label>
         <textarea
+          id="inputText"
           value={inputText}
           onChange={handleTextChange}
           className="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
@@ -55,7 +61,8 @@ export default function FontConverter({ fontName, fontSlug }: FontConverterProps
           </label>
           <button
             onClick={copyToClipboard}
-            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50"
+            disabled={!inputText}
           >
             {copied ? (
               <>
@@ -70,8 +77,11 @@ export default function FontConverter({ fontName, fontSlug }: FontConverterProps
             )}
           </button>
         </div>
-        <div className="w-full p-4 bg-white border-2 border-blue-200 rounded-lg min-h-[120px] text-lg break-words">
-          {convertedText || convertText(inputText)}
+        <div
+          className="w-full p-4 bg-white border-2 border-blue-200 rounded-lg min-h-[120px] text-2xl break-words whitespace-pre-wrap"
+          style={{ fontFamily: googleFontName ? `'${googleFontName}', sans-serif` : 'sans-serif' }}
+        >
+          {convertedText}
         </div>
       </div>
     </div>

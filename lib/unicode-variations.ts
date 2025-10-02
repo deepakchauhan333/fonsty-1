@@ -58,7 +58,7 @@ const UNICODE_BLOCKS = {
 };
 
 // Helper function to get a character from a block with variant offset
-const getCharFromBlock = (baseChar: string, block: { start: number }, variant: number = 0): string => {
+const getCharFromBlock = (baseChar: string, block: { start: number; end: number }, variant: number = 0): string => {
   const code = baseChar.charCodeAt(0);
   if (code >= 65 && code <= 90) { // Uppercase
     const offset = (variant * 26) % (block.end - block.start - 25);
@@ -109,7 +109,7 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
       uppercase: (c: string, variant: number = 0) => 
         getCharFromBlock(c, UNICODE_BLOCKS.SANS_SERIF_BOLD, variant),
       lowercase: (c: string, variant: number = 0) => 
-        getCharFromBlock(c, { start: UNICODE_BLOCKS.SANS_SERIF_BOLD.start + 26 }, variant),
+        getCharFromBlock(c, { start: UNICODE_BLOCKS.SANS_SERIF_BOLD.start + 26, end: UNICODE_BLOCKS.SANS_SERIF_BOLD.end }, variant),
       variants: 50,
       className: 'font-sans font-bold'
     },
@@ -117,7 +117,7 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
       uppercase: (c: string, variant: number = 0) => 
         getCharFromBlock(c, UNICODE_BLOCKS.MATH_BOLD, variant),
       lowercase: (c: string, variant: number = 0) => 
-        getCharFromBlock(c, { start: UNICODE_BLOCKS.MATH_BOLD.start + 26 }, variant),
+        getCharFromBlock(c, { start: UNICODE_BLOCKS.MATH_BOLD.start + 26, end: UNICODE_BLOCKS.MATH_BOLD.end }, variant),
       variants: 50,
       className: 'font-bold'
     },
@@ -125,7 +125,7 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
       uppercase: (c: string, variant: number = 0) => 
         getCharFromBlock(c, UNICODE_BLOCKS.MATH_ITALIC, variant),
       lowercase: (c: string, variant: number = 0) => 
-        getCharFromBlock(c, { start: UNICODE_BLOCKS.MATH_ITALIC.start + 26 }, variant),
+        getCharFromBlock(c, { start: UNICODE_BLOCKS.MATH_ITALIC.start + 26, end: UNICODE_BLOCKS.MATH_ITALIC.end }, variant),
       variants: 50,
       className: 'italic'
     },
@@ -133,7 +133,7 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
       uppercase: (c: string, variant: number = 0) => 
         getCharFromBlock(c, UNICODE_BLOCKS.SCRIPT, variant),
       lowercase: (c: string, variant: number = 0) => 
-        getCharFromBlock(c, { start: UNICODE_BLOCKS.SCRIPT.start + 26 }, variant),
+        getCharFromBlock(c, { start: UNICODE_BLOCKS.SCRIPT.start + 26, end: UNICODE_BLOCKS.SCRIPT.end }, variant),
       variants: 50,
       className: 'font-cursive'
     },
@@ -141,7 +141,7 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
       uppercase: (c: string, variant: number = 0) => 
         getCharFromBlock(c, UNICODE_BLOCKS.CIRCLED, variant),
       lowercase: (c: string, variant: number = 0) => 
-        getCharFromBlock(c, { start: UNICODE_BLOCKS.CIRCLED.start + 26 }, variant),
+        getCharFromBlock(c, { start: UNICODE_BLOCKS.CIRCLED.start + 26, end: UNICODE_BLOCKS.CIRCLED.end }, variant),
       variants: 30,
       className: 'rounded-full bg-blue-100 px-2 py-1 inline-block m-0.5'
     },
@@ -235,7 +235,7 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
     const baseCount = Math.min(count, 200);
     for (let i = 0; i < baseCount; i++) {
       let transformedText = '';
-      let variant = i;
+      const variant = i;
       const variantIndex = style.variants ? variant % style.variants : 0;
       
       // Apply style to each character with variant

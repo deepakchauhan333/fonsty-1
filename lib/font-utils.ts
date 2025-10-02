@@ -1,3 +1,21 @@
+/**
+ * Format URL parameter to match our font type
+ */
+export function formatFontTypeParam(fontType: string): string {
+  return fontType
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+/**
+ * Get font type from URL parameter
+ */
+export function getFontTypeFromParam(param: string, fontTypes: readonly string[]): string | undefined {
+  const formattedParam = formatFontTypeParam(param);
+  return fontTypes.find(ft => formatFontTypeParam(ft) === formattedParam);
+}
+
 // Define FontPreview interface
 interface FontPreview {
   id: number;
@@ -522,7 +540,7 @@ const applyCategoryStyle = (text: string, category: string): string => {
     case 'zalgo':
       return applyZalgo(`zalgo-${text}`);
       
-    case 'emoji':
+    case 'emoji': {
       const emojiCategories = {
         faces: ['😀', '😊', '😎', '🤩', '😍', '🥰', '😇', '🤠', '🤓', '🧐'],
         objects: ['🚀', '🎯', '🎨', '🎮', '🎲', '🧩', '🎭', '🎪', '🎡', '🎢'],
@@ -542,26 +560,29 @@ const applyCategoryStyle = (text: string, category: string): string => {
         }
         return char;
       }).join('');
+    }
       
     // Theme Styles
-    case 'gaming':
+    case 'gaming': {
       const gamingPrefixes = ['[PLAY]', '>>>', 'LVL UP!', 'NEW!', 'BONUS!'];
       const gamingSuffixes = ['[CONTINUE?]', '<<<', 'HIGH SCORE!', 'SAVE?', 'NEXT STAGE'];
       const prefix = gamingPrefixes[Math.floor(Math.random() * gamingPrefixes.length)];
       const suffix = gamingSuffixes[Math.floor(Math.random() * gamingSuffixes.length)];
       return `${prefix} ${text.toUpperCase()} ${suffix}`;
+    }
       
-    case 'retro':
+    case 'retro': {
       const retroStyles = [
         `[ ${text.toUpperCase()} ]`,
         `▌${text.toUpperCase()}▐`,
         `«« ${text.toUpperCase()} »»`,
-        `|\ ${text.toUpperCase()} /|`,
+        `|\\ ${text.toUpperCase()} /|`,
         `★ ${text.toUpperCase()} ★`
       ];
       return retroStyles[Math.floor(Math.random() * retroStyles.length)];
+    }
       
-    case 'vintage':
+    case 'vintage': {
       const vintageStyles = [
         `✧ ${text.toUpperCase()} ✧`,
         `✧･ﾟ: *✧${text.toUpperCase()}✧*:･ﾟ✧`,
@@ -570,8 +591,9 @@ const applyCategoryStyle = (text: string, category: string): string => {
         `✧˖° ${text.toUpperCase()} °˖✧`
       ];
       return vintageStyles[Math.floor(Math.random() * vintageStyles.length)];
+    }
       
-    case 'neon':
+    case 'neon': {
       const neonStyles = [
         `✨ ${text.toUpperCase()} ✨`,
         `✧･ﾟ: *${text.toUpperCase()}*:･ﾟ✧`,
@@ -580,8 +602,9 @@ const applyCategoryStyle = (text: string, category: string): string => {
         `✧˚·${text.toUpperCase()}·˚✧`
       ];
       return neonStyles[Math.floor(Math.random() * neonStyles.length)];
+    }
       
-    case 'glitch':
+    case 'glitch': {
       const glitchChars = ['!', '@', '#', '$', '%', '&', '*', '?', '/', '\\', '|', '~'];
       return text.split('').map((char, i) => {
         // Randomly replace some characters with glitch characters
@@ -594,8 +617,9 @@ const applyCategoryStyle = (text: string, category: string): string => {
         }
         return char;
       }).join('');
+    }
       
-    case 'tattoo':
+    case 'tattoo': {
       const tattooStyles = [
         `⚔️ ${text} ⚔️`,
         `✧ ${text} ✧`,
@@ -604,6 +628,7 @@ const applyCategoryStyle = (text: string, category: string): string => {
         `✧˖° ${text} °˖✧`
       ];
       return tattooStyles[Math.floor(Math.random() * tattooStyles.length)];
+    }
       
     case 'gothic':
       return `† ${text.toUpperCase()} †`;

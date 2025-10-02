@@ -2,7 +2,12 @@ import { NextResponse } from 'next/server';
 import { getFontsByCategory } from '@/lib/font-utils';
 
 // Cache for API responses
-const cache = new Map<string, { timestamp: number; data: any }>();
+interface CacheEntry {
+  timestamp: number;
+  data: Array<{ id: number; name: string; text: string }>;
+}
+
+const cache = new Map<string, CacheEntry>();
 const CACHE_DURATION = 1000 * 60 * 60; // 1 hour cache
 
 // Enable CORS headers

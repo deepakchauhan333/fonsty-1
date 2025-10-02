@@ -1,8 +1,14 @@
+# Allow all search engines to crawl the website
 User-agent: *
 Allow: /
+
+# Disallow crawling of admin, API, and Next.js internal paths
+Disallow: /admin/
 Disallow: /api/
 Disallow: /_next/
-Disallow: /*/edit-*
-Disallow: /*?*
 
-Sitemap: ${process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com'}/sitemap.xml
+# Crawl-delay for aggressive crawlers
+Crawl-delay: 10
+
+# Sitemap location
+Sitemap: https://fontys.vercel.app/sitemap.xml

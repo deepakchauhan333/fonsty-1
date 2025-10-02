@@ -15,7 +15,7 @@ const formatFontType = (fontType: string): string => {
   return fontType
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^\-|\-$/g, '');
+    .replace(/^-|-$/g, '');
 };
 
 export default async function sitemap(): Promise<Sitemap> {

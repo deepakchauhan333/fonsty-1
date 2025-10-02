@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "outDir": ".next/scripts",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "noEmit": false,
+    "resolveJsonModule": true,
+    "isolatedModules": false
+  },
+  "include": ["scripts/**/*.ts"],
+  "exclude": ["node_modules"]
+}
