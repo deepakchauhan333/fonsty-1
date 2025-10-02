@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import { getFontsByCategory } from '@/lib/font-utils';
 
 // Cache for API responses
@@ -17,7 +18,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'Content-Type, Authorization',
 };
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const category = searchParams.get('category') || '';
   const count = Math.min(parseInt(searchParams.get('count') || '500'), 1000); // Max 1000 fonts
