@@ -5,11 +5,10 @@ import { FiCopy, FiCheck } from 'react-icons/fi';
 
 interface FontConverterProps {
   fontName: string;
-  fontSlug: string;
   googleFontName?: string; // The CSS font-family name
 }
 
-export default function FontConverter({ fontName, fontSlug, googleFontName }: FontConverterProps) {
+export default function FontConverter({ fontName, googleFontName }: FontConverterProps) {
   const [inputText, setInputText] = useState('Type your text here');
   const [copied, setCopied] = useState(false);
 

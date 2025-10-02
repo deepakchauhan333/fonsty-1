@@ -106,7 +106,7 @@ export default function FontPageLayout({ platform, category, initialFonts }: Fon
   const [showCopied, setShowCopied] = useState<number | null>(null);
   const [loadingState, setLoadingState] = useState<FontLoadingState>('loading');
   const [fonts, setFonts] = useState<FontPreview[]>(initialFonts);
-  const [error, setError] = useState<Error | null>(null);
+  const [, setError] = useState<Error | null>(null);
   const [showScroll, setShowScroll] = useState(false);
   
   // Load fonts with priority on initial render
@@ -158,7 +158,7 @@ export default function FontPageLayout({ platform, category, initialFonts }: Fon
             // If we already have fonts, only add new ones
             if (prevFonts.length > 0) {
               const existingIds = new Set(prevFonts.map(f => f.id));
-              const newFonts = data.fonts.filter((f: any) => !existingIds.has(f.id));
+              const newFonts = data.fonts.filter((f: FontPreview) => !existingIds.has(f.id));
               return [...prevFonts, ...newFonts];
             }
             return data.fonts;
@@ -228,10 +228,7 @@ export default function FontPageLayout({ platform, category, initialFonts }: Fon
     }
   };
 
-  // Handle scroll to top
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  // Removed unused function: handleScrollToTop
 
   // Format category name for display
   const formatCategory = (cat: string): string => {
@@ -278,7 +275,8 @@ export default function FontPageLayout({ platform, category, initialFonts }: Fon
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Loading skeleton
+  // Loading skeleton (unused but kept for future use)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const renderSkeleton = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {Array.from({ length: 12 }).map((_, i) => (

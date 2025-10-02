@@ -35,7 +35,6 @@ export default async function sitemap(): Promise<Sitemap> {
   
   for (const platform of PLATFORMS) {
     const platformPath = platform.toLowerCase();
-    const platformName = PLATFORM_NAMES[platform] || platform;
     
     // Add platform page
     dynamicRoutes.push({

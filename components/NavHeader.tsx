@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useSearchParams, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { FiChevronDown, FiX } from 'react-icons/fi';
 
@@ -29,6 +29,7 @@ const SOCIAL_MEDIA = [
 ];
 
 export function NavHeader() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const pathname = usePathname();
   const [showSocialMenu, setShowSocialMenu] = useState(false);
   

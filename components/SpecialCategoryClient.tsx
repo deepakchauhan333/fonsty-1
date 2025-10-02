@@ -3,14 +3,9 @@
 import { useState } from 'react';
 import { copyToClipboard } from '@/lib/utils';
 
-interface FontStyle {
-  name: string;
-  text: string;
-  style?: React.CSSProperties;
-}
+// Removed unused interface: FontStyle
 
 interface SpecialCategoryClientProps {
-  category: string;
   title: string;
   description: string;
 }
@@ -65,7 +60,7 @@ const fontStyleCategories = {
   ]
 };
 
-export default function SpecialCategoryClient({ category, title }: SpecialCategoryClientProps) {
+export default function SpecialCategoryClient({ title }: SpecialCategoryClientProps) {
   const [inputText, setInputText] = useState('Hello World');
   const [activeCategory, setActiveCategory] = useState('Popular');
   const [activePlatform, setActivePlatform] = useState('All Platforms');

@@ -14,7 +14,7 @@ interface PageProps {
 export default function FontPage({ params }: PageProps) {
   const { slug } = params;
   
-  if (!THOUSAND_FONTS.includes(slug as any)) {
+  if (!THOUSAND_FONTS.includes(slug as typeof THOUSAND_FONTS[number])) {
     notFound();
   }
 
@@ -46,7 +46,7 @@ export default function FontPage({ params }: PageProps) {
         {/* Font Converter */}
         <>
           {fontUrl && <link rel="stylesheet" href={fontUrl} />}
-          <FontConverter fontName={fontName} fontSlug={slug} googleFontName={googleFontName} />
+          <FontConverter fontName={fontName} googleFontName={googleFontName} />
         </>
 
         {/* SEO Content Section */}

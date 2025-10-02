@@ -1,19 +1,16 @@
 /**
- * Format URL parameter to match our font type
- */
-export function formatFontTypeParam(fontType: string): string {
-  return fontType
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
-/**
  * Get font type from URL parameter
  */
 export function getFontTypeFromParam(param: string, fontTypes: readonly string[]): string | undefined {
-  const formattedParam = formatFontTypeParam(param);
-  return fontTypes.find(ft => formatFontTypeParam(ft) === formattedParam);
+  const formatParam = (str: string): string => {
+    return str
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
+  };
+  
+  const formattedParam = formatParam(param);
+  return fontTypes.find(ft => formatParam(ft) === formattedParam);
 }
 
 // Define FontPreview interface
@@ -112,13 +109,13 @@ export function getDemoText(category: string): string {
     'small': 'Small Text',
   };
 
-  return demoTexts[category.toLowerCase()] || 'Sample Text';
+  return demoTexts[category.toLowerCase()] || 'Demo Text';
 }
 
 import { allFontStyles, generateFontVariations } from './unicode-data';
 
 // Generate extensive variations of the base text with unicode and emoji combinations
-const getTextVariations = (baseText: string, count: number, category?: string): string[] => {
+export function getTextVariations(baseText: string, count: number, category?: string): string[] {
   const variations = new Set<string>();
   
   // Basic transformations
@@ -126,7 +123,7 @@ const getTextVariations = (baseText: string, count: number, category?: string): 
     baseText,
     baseText.toUpperCase(),
     baseText.toLowerCase(),
-    baseText.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
+    baseText.replace(/\w\S*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase())
   ];
   
   // Add basic forms
@@ -220,7 +217,7 @@ const getTextVariations = (baseText: string, count: number, category?: string): 
   }
   
   return Array.from(variations).slice(0, count);
-};
+}
 
 export const getFontsByCategory = (category: string, count: number = 500): FontPreview[] => {
   const cacheKey = `${category.toLowerCase()}-${count}`;

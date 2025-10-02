@@ -9,7 +9,7 @@ type SeoHeadProps = {
   ogType?: string;
   ogImageUrl?: string;
   jsonLd?: Array<{ __html: string }>;
-  breadcrumbJsonLd?: any;
+  breadcrumbJsonLd?: Record<string, unknown>;
 };
 
 export function SeoHead({

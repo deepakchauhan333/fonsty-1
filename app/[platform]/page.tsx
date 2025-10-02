@@ -2,10 +2,14 @@ import { notFound } from 'next/navigation';
 import { PLATFORMS, FONT_TYPES, PLATFORM_NAMES } from '@/lib/constants';
 import Link from 'next/link';
 
-export default function PlatformPage({ params }: { params: { platform: string } }) {
+interface PlatformType {
+  platform: string;
+}
+
+export default function PlatformPage({ params }: { params: PlatformType }) {
   const platform = params.platform.toLowerCase();
   
-  if (!PLATFORMS.includes(platform as any)) {
+  if (!PLATFORMS.includes(platform as typeof PLATFORMS[number])) {
     notFound();
   }
 

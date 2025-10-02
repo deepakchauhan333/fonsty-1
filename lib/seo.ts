@@ -6,7 +6,7 @@ type FontGeneratorPageProps = {
   slug: string;
   primaryKeyword: string;
   secondaryKeywords: string[];
-  faqs: Array<{ question: string; answer: string }>;
+  faqs?: Array<{ question: string; answer: string }>;
 };
 
 export function generateFontGeneratorMetadata({
@@ -65,7 +65,6 @@ export function generateJsonLd({
   faqs?: Array<{ question: string; answer: string }>;
 }) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
-  const pageUrl = `${siteUrl}${slug}`;
 
   const jsonLd = {
     '@context': 'https://schema.org',

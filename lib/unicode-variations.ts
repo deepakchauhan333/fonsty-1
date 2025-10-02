@@ -70,37 +70,12 @@ const getCharFromBlock = (baseChar: string, block: { start: number; end: number 
   return baseChar;
 };
 
-// Helper function to generate different variants of a character
-const getVariantChar = (baseChar: string, variant: number, baseCode: number): string => {
-  const code = baseChar.charCodeAt(0);
-  if (code >= 65 && code <= 90) { // Uppercase
-    return String.fromCharCode(baseCode + (code - 65) + (variant * 1000) % 0xFFFF);
-  } else if (code >= 97 && code <= 122) { // Lowercase
-    return String.fromCharCode(baseCode + (code - 97) + 26 + (variant * 1000) % 0xFFFF);
-  }
-  return baseChar;
-};
+// Removed unused function: getVariantChar
 
-// Helper function to apply a style with variant
-const applyStyleWithVariant = (
-  c: string, 
-  variant: number, 
-  baseUppercase: number, 
-  baseLowercase: number
-): string => {
-  const code = c.charCodeAt(0);
-  if (code >= 65 && code <= 90) {
-    return String.fromCharCode(baseUppercase + (code - 65) + (variant * 100) % 0x1000);
-  }
-  if (code >= 97 && code <= 122) {
-    return String.fromCharCode(baseLowercase + (code - 97) + (variant * 100) % 0x1000);
-  }
-  return c;
-};
+// Removed unused function: applyStyleWithVariant
 
 // Function to generate unique variations for each font type
 const generateFontVariations = (baseText: string, count: number, type: string): UnicodeVariation[] => {
-  const variations: UnicodeVariation[] = [];
   
   // Define unicode character ranges for different styles with multiple variants
   const styles: StyleVariations = {
@@ -285,7 +260,7 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
         // Apply secondary style to some characters
         combinedText = combinedText.split('').map((c, idx) => {
           if (idx % 2 === 0) {
-            return applyStyle(c, otherStyle as any, variant);
+            return applyStyle(c, otherStyle as { uppercase: string[] | StyleFunction; lowercase: string[] | StyleFunction; className?: string }, variant);
           }
           return c;
         }).join('');

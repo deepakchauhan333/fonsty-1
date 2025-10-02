@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
-import { PLATFORMS, FONT_TYPES, PlatformType, FontType, PLATFORM_NAMES } from '@/lib/constants';
+import { PLATFORMS, FONT_TYPES, PlatformType, PLATFORM_NAMES } from '@/lib/constants';
 import FontGenerator from '@/app/components/FontGenerator';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { generateSEOContent } from '@/lib/seo-content-generator';
 
 // Import utility functions
-import { formatFontTypeParam, getFontTypeFromParam } from '@/lib/font-utils';
+import { getFontTypeFromParam } from '@/lib/font-utils';
 
 interface PageProps {
   params: {
@@ -14,6 +14,14 @@ interface PageProps {
     fontType: string;
   };
 }
+
+// Format URL parameter to match our font type
+const formatFontTypeParam = (fontType: string): string => {
+  return fontType
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+};
 
 export default function Page({ params }: PageProps) {
   const platform = params.platform.toLowerCase();

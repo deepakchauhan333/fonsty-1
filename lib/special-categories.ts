@@ -1,4 +1,4 @@
-import { CategorySlug } from './platforms';
+// Removed unused import: CategorySlug
 
 type CategoryStyle = {
   bgColor: string;

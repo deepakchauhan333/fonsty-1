@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiCopy, FiX, FiArrowUp } from 'react-icons/fi';
-import { generateFontVariations } from '@/lib/unicode-data';
+// Removed unused import: generateFontVariations
 
 interface FontPreview {
   id: number;
@@ -22,7 +22,7 @@ export default function FontPageLayout({ platform, category, initialFonts }: Fon
   const [fontPreviews, setFontPreviews] = useState<FontPreview[]>(initialFonts);
   const [showCopied, setShowCopied] = useState<number | null>(null);
   const [showScroll, setShowScroll] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // Removed unused state: isLoading, setIsLoading
 
   // Update fonts when input changes
   useEffect(() => {

@@ -1,11 +1,6 @@
 import { getPageMetadata, getFontsByCategory } from './font-utils';
 
-// Define FontPreview interface to match the one in font-utils.ts
-interface FontPreview {
-  id: number;
-  name: string;
-  text: string;
-}
+// Removed unused interface: FontPreview
 
 /**
  * Generates metadata for a font page
