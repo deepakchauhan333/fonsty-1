@@ -21,7 +21,8 @@ import {
   FiHelpCircle
 } from 'react-icons/fi';
 import { FaTiktok } from 'react-icons/fa';
-import { generateFontVariations } from '@/lib/unicode-data';
+import { getHomepageVariations } from '@/lib/optimized-unicode-variations';
+import OptimizedFontCard from '@/components/OptimizedFontCard';
 
 // Social media platforms with their icons and base URLs
 const socialMedia = [
@@ -52,15 +53,11 @@ const socialMedia = [
   { name: 'Twitch', icon: <FiVideo />, url: '/twitch' },
 ];
 
-interface FontPreview {
-  id: number;
-  name: string;
-  text: string;
-}
+import { UnicodeVariation } from '@/lib/optimized-unicode-variations';
 
 export default function Home() {
   const [inputText, setInputText] = useState('Unicode Fonts');
-  const [fontPreviews, setFontPreviews] = useState<FontPreview[]>([]);
+  const [fontPreviews, setFontPreviews] = useState<UnicodeVariation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showCopied, setShowCopied] = useState<number | null>(null);
 
@@ -74,8 +71,8 @@ export default function Home() {
   // Load all fonts on initial render with 'demo' text
   useEffect(() => {
     try {
-      // Generate all 2000+ variations with 'demo' text
-      const variations = generateFontVariations('demo', 2000);
+      // Generate 500 optimized variations for instant load
+      const variations = getHomepageVariations('demo', 500);
       setFontPreviews(variations);
     } catch (error) {
       console.error('Error loading fonts:', error);
@@ -88,12 +85,12 @@ export default function Home() {
     
     // Use requestAnimationFrame for smoother UI updates
     const updateFonts = () => {
-      const variations = generateFontVariations(displayText, 2000);
+      const variations = getHomepageVariations(displayText, 500);
       setFontPreviews(variations);
     };
     
-    // Debounce the font generation to prevent UI freezing
-    const timer = setTimeout(updateFonts, 50);
+    // Minimal debounce for instant feel
+    const timer = setTimeout(updateFonts, 100);
     
     return () => clearTimeout(timer);
   }, [inputText]);
@@ -109,11 +106,11 @@ export default function Home() {
     
     // Use setTimeout to prevent UI blocking
     const timer = setTimeout(() => {
-      // Generate more variations for a richer experience
-      const variations = generateFontVariations(inputText, 2000);
+      // Generate 500 optimized variations for best performance
+      const variations = getHomepageVariations(inputText, 500);
       setFontPreviews(variations);
       setIsLoading(false);
-    }, 300);
+    }, 150);
 
     return () => clearTimeout(timer);
   }, [inputText]);
@@ -130,9 +127,9 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50/30 via-white to-pink-50/30">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <header className="bg-white/80 backdrop-blur-md border-b border-purple-100/50 sticky top-0 z-10 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4">
           {/* Social Media Links */}
           <div className="flex justify-center space-x-6 mb-4">
@@ -149,8 +146,8 @@ export default function Home() {
           </div>
           
           <div className="text-center mb-4">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">Unicode Font Generator</h1>
-            <p className="text-sm text-gray-500">Type anything to generate unique font styles</p>
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 bg-clip-text text-transparent mb-2">✨ Unicode Font Generator</h1>
+            <p className="text-sm text-gray-600 font-medium">Transform your text instantly • 500+ beautiful styles</p>
           </div>
           
           {/* Input */}
@@ -159,15 +156,15 @@ export default function Home() {
               type="text"
               value={inputText}
               onChange={(e) => setInputText(sanitizeInput(e.target.value))}
-              placeholder="Type your name or text..."
-              className="w-full px-4 py-3 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+              placeholder="✍️ Type your text here..."
+              className="w-full px-5 py-4 text-lg font-medium border-2 border-purple-200 rounded-2xl focus:ring-4 focus:ring-purple-200 focus:border-purple-400 transition-all duration-200 bg-white shadow-sm hover:shadow-md"
               autoFocus
               maxLength={5000}
             />
             {inputText && (
               <button
                 onClick={() => setInputText('')}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-xl bg-gray-100 hover:bg-purple-500 text-gray-500 hover:text-white transition-all duration-200 hover:scale-110"
                 aria-label="Clear input"
               >
                 <FiX size={18} />
@@ -178,62 +175,36 @@ export default function Home() {
       </header>
 
       <main className="max-w-6xl mx-auto px-4 py-6">
-        {/* Best 6x6 Grid */}
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-4">Best Fonts</h2>
+        {/* Featured Fonts */}
+        <div className="mb-10">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">✨ Featured Fonts</h2>
+            <span className="text-sm font-semibold text-purple-600 bg-purple-50 px-4 py-2 rounded-full">Top Picks</span>
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 mb-8">
-            {fontPreviews.slice(0, 36).map((font, index) => (
-              <motion.div
+            {fontPreviews.slice(0, 36).map((font) => (
+              <OptimizedFontCard
                 key={`best-${font.id}`}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.2, delay: index * 0.02 }}
-                className="bg-white p-3 rounded-lg border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-                onClick={() => copyToClipboard(font.text, font.id)}
-              >
-                <div className="text-center h-12 flex items-center justify-center">
-                  <span className="text-xl">{font.text}</span>
-                </div>
-                {showCopied === font.id && (
-                  <div className="text-center text-xs text-green-600 mt-1">Copied!</div>
-                )}
-              </motion.div>
+                font={font}
+                variant="featured"
+              />
             ))}
           </div>
         </div>
 
         {/* All Fonts */}
         <div>
-          <h2 className="text-xl font-bold text-gray-800 mb-4">All Fonts ({fontPreviews.length})</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-            {fontPreviews.map((font, index) => (
-              <motion.div
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-800">🌟 All Fonts</h2>
+            <span className="text-sm font-semibold text-gray-600 bg-gray-100 px-4 py-2 rounded-full">{fontPreviews.length} styles</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            {fontPreviews.map((font) => (
+              <OptimizedFontCard
                 key={font.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.1, delay: index * 0.003 }}
-                className="group relative bg-white p-3 rounded-lg hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
-                onClick={() => copyToClipboard(font.text, font.id)}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-lg font-medium">{font.text}</span>
-                  <button 
-                    className="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-gray-600 transition-opacity"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      copyToClipboard(font.text, font.id);
-                    }}
-                    aria-label="Copy to clipboard"
-                  >
-                    <FiCopy size={16} />
-                  </button>
-                </div>
-                {showCopied === font.id && (
-                  <div className="absolute right-3 -top-8 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    Copied!
-                  </div>
-                )}
-              </motion.div>
+                font={font}
+                variant="grid"
+              />
             ))}
           </div>
         </div>
@@ -257,17 +228,17 @@ export default function Home() {
             </div>
             <h3 className="text-lg font-medium text-gray-700">Type something to see font variations</h3>
             <p className="mt-1 text-sm text-gray-500">
-              Start typing in the input above to generate 2000+ unique font styles
+              Start typing in the input above to generate 500+ unique font styles instantly
             </p>
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <p className="text-center text-xs text-gray-500">
-            &copy; {new Date().getFullYear()} Unicode Font Generator. Click any style to copy.
+      <footer className="bg-gradient-to-r from-purple-50 to-pink-50 border-t border-purple-100 mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <p className="text-center text-sm text-gray-600 font-medium">
+            Made with 💜 • &copy; {new Date().getFullYear()} Unicode Font Generator • Click any style to copy instantly
           </p>
         </div>
       </footer>

@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FiCopy, FiCheck } from 'react-icons/fi';
-import { getFontVariations, type UnicodeVariation } from '@/lib/unicode-variations';
+import { getFontVariations, type UnicodeVariation } from '@/lib/optimized-unicode-variations';
+import OptimizedFontCard from '@/components/OptimizedFontCard';
 
 interface FontGeneratorProps {
   fontType: string;
@@ -44,8 +45,8 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
   // Load and update fonts when input or fontType changes
   useEffect(() => {
     const updateFonts = () => {
-      // Get 500 variations for the current font type
-      const variations = getFontVariations(fontType, inputText || 'Example', 500);
+      // Get 100 variations for instant load
+      const variations = getFontVariations(fontType, inputText || 'Example', 100);
       setFontPreviews(variations);
     };
     
@@ -58,90 +59,47 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-4">{formattedFontName} for {platformName}</h1>
-        <p className="text-gray-600 mb-6">
-          Generate {formattedFontName.toLowerCase()} text for {platformName}. Copy and paste the styled text below.
+        <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-3">{formattedFontName} for {platformName}</h1>
+        <p className="text-gray-600 font-medium mb-6">
+          ✨ Generate beautiful {formattedFontName.toLowerCase()} text for {platformName}. Click any style to copy instantly.
         </p>
         
         <div className="mb-8">
-          <label htmlFor="inputText" className="block text-sm font-medium text-gray-700 mb-2">
-            Enter your text:
+          <label htmlFor="inputText" className="block text-sm font-semibold text-gray-700 mb-3">
+            ✍️ Enter your text:
           </label>
           <input
             type="text"
             id="inputText"
             value={inputText}
             onChange={(e) => setInputText(sanitizeInput(e.target.value))}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Type something..."
+            className="w-full px-5 py-4 text-lg font-medium border-2 border-purple-200 rounded-2xl focus:ring-4 focus:ring-purple-200 focus:border-purple-400 transition-all duration-200 bg-white shadow-sm hover:shadow-md"
+            placeholder="Type your text here..."
             maxLength={5000}
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-        {fontPreviews.map((font) => (
-          <motion.div
-            key={`${font.id}-${font.name}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className={`relative p-3 border border-gray-200 rounded-lg hover:shadow-md transition-all duration-200 ${font.className || ''}`}
-            style={{
-              minHeight: '120px',
-              display: 'flex',
-              flexDirection: 'column',
-              overflow: 'hidden'
-            }}
-          >
-            <div className="flex justify-between items-start mb-2">
-              <span className="text-xs font-medium text-gray-500 truncate max-w-[70%]">
-                {font.name}
-              </span>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  copyToClipboard(font.unicode, font.id);
-                }}
-                className="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0"
-                aria-label="Copy to clipboard"
-              >
-                {showCopied === font.id ? (
-                  <FiCheck className="text-green-500" size={16} />
-                ) : (
-                  <FiCopy size={16} />
-                )}
-              </button>
-            </div>
-            <div
-              className={`flex-1 flex items-center justify-center p-2 rounded-md bg-white/50 cursor-pointer hover:bg-gray-50 transition-colors ${font.className || ''}`}
-              onClick={() => copyToClipboard(font.unicode, font.id)}
-              style={{
-                wordBreak: 'break-word',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                display: '-webkit-box',
-                WebkitLineClamp: 3,
-                WebkitBoxOrient: 'vertical',
-                lineHeight: '1.4',
-                fontSize: '1.1rem',
-                textAlign: 'center',
-                padding: '0.5rem'
-              }}
-            >
-              {font.unicode || font.preview}
-              
-              {showCopied === font.id && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute right-2 -top-2 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded-full shadow-md"
-                >
-                  Copied!
-                </motion.div>
-              )}
-            </div>
-          </motion.div>
-        ))}
+      {/* Optimized Font Display */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+            ✨ {formattedFontName}
+          </h2>
+          <span className="text-sm font-semibold text-purple-600 bg-purple-50 px-4 py-2 rounded-full">
+            {fontPreviews.length} styles
+          </span>
+        </div>
+        
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+          {fontPreviews.map((font) => (
+            <OptimizedFontCard
+              key={`${font.id}-${font.name}`}
+              font={font}
+              variant="grid"
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

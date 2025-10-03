@@ -6,7 +6,9 @@ export type UnicodeVariation = {
   name: string;
   unicode: string;
   preview: string;
-  className?: string; // Add className for custom styling
+  className?: string;
+  category: string;
+  fontType: string;
 };
 
 type FontVariations = {
@@ -23,7 +25,203 @@ type StyleVariations = {
     marks?: string[];
     variants?: number;
     className?: string;
+    category: string;
   };
+};
+
+// 21 Font Type Categories with specialized Unicode ranges
+const FONT_TYPE_CONFIGS = {
+  'fancy-font-generator': {
+    name: 'Fancy Font',
+    category: 'decorative',
+    unicodeRanges: [
+      { start: 0x1D400, end: 0x1D433 }, // Mathematical Bold
+      { start: 0x1D5D4, end: 0x1D607 }, // Sans-serif Bold
+      { start: 0x1D63C, end: 0x1D66F }, // Sans-serif Bold Italic
+    ],
+    decorators: ['✨', '🌟', '💫', '⭐', '🔮', '💎', '👑', '🎭', '🎪', '🎨']
+  },
+  'cursive-font-generator': {
+    name: 'Cursive Font',
+    category: 'script',
+    unicodeRanges: [
+      { start: 0x1D49C, end: 0x1D4CF }, // Script
+      { start: 0x1D4D0, end: 0x1D503 }, // Bold Script
+    ],
+    decorators: ['✍️', '📝', '🖋️', '✒️', '🖊️', '📜', '💌', '🎀', '🌸', '🦋']
+  },
+  'bubble-font-generator': {
+    name: 'Bubble Font',
+    category: 'playful',
+    unicodeRanges: [
+      { start: 0x24B6, end: 0x24E9 }, // Circled Latin
+      { start: 0x1F150, end: 0x1F169 }, // Negative Circled
+    ],
+    decorators: ['🫧', '💭', '🎈', '🔵', '⚪', '🟢', '🟡', '🟠', '🔴', '🟣']
+  },
+  'bold-font-generator': {
+    name: 'Bold Font',
+    category: 'strong',
+    unicodeRanges: [
+      { start: 0x1D400, end: 0x1D433 }, // Mathematical Bold
+      { start: 0x1D5D4, end: 0x1D607 }, // Sans-serif Bold
+    ],
+    decorators: ['💪', '🔥', '⚡', '💥', '🚀', '🎯', '🏆', '👊', '🔊', '📢']
+  },
+  'italic-font-generator': {
+    name: 'Italic Font',
+    category: 'elegant',
+    unicodeRanges: [
+      { start: 0x1D434, end: 0x1D467 }, // Mathematical Italic
+      { start: 0x1D608, end: 0x1D63B }, // Sans-serif Italic
+    ],
+    decorators: ['🌙', '✨', '🌟', '💫', '🎭', '🎪', '🎨', '🖼️', '🎬', '📚']
+  },
+  'strikethrough-text-generator': {
+    name: 'Strikethrough Text',
+    category: 'crossed',
+    unicodeRanges: [],
+    decorators: ['❌', '🚫', '⛔', '🔴', '❎', '✖️', '➖', '〰️', '🚷', '🚯'],
+    combiningMarks: ['̶', '̷', '̸', '̵', '̴']
+  },
+  'underline-text-generator': {
+    name: 'Underline Text',
+    category: 'emphasized',
+    unicodeRanges: [],
+    decorators: ['📝', '✏️', '🖊️', '✒️', '🖋️', '📋', '📄', '📃', '📑', '🗒️'],
+    combiningMarks: ['̲', '̳', '̠', '̤', '̥']
+  },
+  'small-caps-text-generator': {
+    name: 'Small Caps Text',
+    category: 'compact',
+    unicodeRanges: [
+      { start: 0x1D18A, end: 0x1D1A9 }, // Small Caps
+    ],
+    decorators: ['🔤', '🔡', '🔠', '📝', '✏️', '🖊️', '📋', '📄', '🗒️', '📑']
+  },
+  'reverse-text-generator': {
+    name: 'Reverse Text',
+    category: 'flipped',
+    unicodeRanges: [],
+    decorators: ['🔄', '🔃', '🔁', '↩️', '↪️', '🔀', '🔂', '⤴️', '⤵️', '🔄'],
+    transform: (text: string) => text.split('').reverse().join('')
+  },
+  'zalgo-text-generator': {
+    name: 'Zalgo Text',
+    category: 'chaotic',
+    unicodeRanges: [],
+    decorators: ['👹', '😈', '🔥', '⚡', '💀', '👻', '🎭', '🌪️', '💥', '🌋'],
+    combiningMarks: [
+      '̴', '̷', '̸', '̺', '̻', '̼', 'ͅ', '͇', '͈', '͉', '͍', '͎', '͓', '͔', '͕', '͖', 
+      '͙', '͚', '͛', '͊', '͋', '͌', '̃', '̂', '̄', '̅', '̿', '̑', '̆', '̐', '͒', '͗', 
+      '͑', '̇', '̈', '̊', '͢', '͠', '͡', '̀', '́', '̂', '̃', '̄', '̅', '̆', '̇', '̈'
+    ]
+  },
+  'mirror-text-generator': {
+    name: 'Mirror Text',
+    category: 'reflected',
+    unicodeRanges: [],
+    decorators: ['🪞', '🔄', '↔️', '⚖️', '🎭', '👥', '🔁', '🔃', '⤴️', '⤵️'],
+    mirrorMap: {
+      'a': 'ɒ', 'b': 'd', 'c': 'ɔ', 'd': 'b', 'e': 'ɘ', 'f': 'Ꮈ', 'g': 'ǫ', 'h': 'ʜ',
+      'i': 'i', 'j': 'ꞁ', 'k': 'ʞ', 'l': 'l', 'm': 'm', 'n': 'n', 'o': 'o', 'p': 'q',
+      'q': 'p', 'r': 'ɿ', 's': 'ƨ', 't': 'ƚ', 'u': 'u', 'v': 'v', 'w': 'w', 'x': 'x',
+      'y': 'ʏ', 'z': 'z'
+    }
+  },
+  'upside-down-text-generator': {
+    name: 'Upside Down Text',
+    category: 'inverted',
+    unicodeRanges: [],
+    decorators: ['🙃', '🔄', '↕️', '⬇️', '⬆️', '🎪', '🎭', '🌍', '🔃', '🔁'],
+    upsideDownMap: {
+      'a': 'ɐ', 'b': 'q', 'c': 'ɔ', 'd': 'p', 'e': 'ǝ', 'f': 'ɟ', 'g': 'ƃ', 'h': 'ɥ',
+      'i': 'ᴉ', 'j': 'ɾ', 'k': 'ʞ', 'l': 'l', 'm': 'ɯ', 'n': 'u', 'o': 'o', 'p': 'd',
+      'q': 'b', 'r': 'ɹ', 's': 's', 't': 'ʇ', 'u': 'n', 'v': 'ʌ', 'w': 'ʍ', 'x': 'x',
+      'y': 'ʎ', 'z': 'z'
+    }
+  },
+  'emoji-text-generator': {
+    name: 'Emoji Text',
+    category: 'expressive',
+    unicodeRanges: [
+      { start: 0x1F600, end: 0x1F64F }, // Emoticons
+      { start: 0x1F300, end: 0x1F5FF }, // Misc Symbols
+    ],
+    decorators: ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃']
+  },
+  'unicode-text-generator': {
+    name: 'Unicode Text',
+    category: 'universal',
+    unicodeRanges: [
+      { start: 0x0100, end: 0x017F }, // Latin Extended-A
+      { start: 0x0180, end: 0x024F }, // Latin Extended-B
+      { start: 0x1E00, end: 0x1EFF }, // Latin Extended Additional
+    ],
+    decorators: ['🌐', '🔤', '🔡', '🔠', '📝', '✏️', '🖊️', '📋', '📄', '🗒️']
+  },
+  'symbol-text-generator': {
+    name: 'Symbol Text',
+    category: 'symbolic',
+    unicodeRanges: [
+      { start: 0x2190, end: 0x21FF }, // Arrows
+      { start: 0x2200, end: 0x22FF }, // Mathematical Operators
+      { start: 0x2300, end: 0x23FF }, // Miscellaneous Technical
+    ],
+    decorators: ['⚡', '⭐', '✨', '🔮', '💎', '👑', '🎭', '🎪', '🎨', '🖼️']
+  },
+  'tattoo-font-generator': {
+    name: 'Tattoo Font',
+    category: 'artistic',
+    unicodeRanges: [
+      { start: 0x1D504, end: 0x1D537 }, // Fraktur
+      { start: 0x1D56C, end: 0x1D59F }, // Bold Fraktur
+    ],
+    decorators: ['🖤', '⚡', '🔥', '💀', '🌹', '⚔️', '🗡️', '🛡️', '👑', '🦅']
+  },
+  'gaming-font-generator': {
+    name: 'Gaming Font',
+    category: 'digital',
+    unicodeRanges: [
+      { start: 0x1D670, end: 0x1D6A3 }, // Monospace
+      { start: 0xFF21, end: 0xFF3A }, // Fullwidth
+    ],
+    decorators: ['🎮', '🕹️', '👾', '🎯', '🏆', '⚡', '🔥', '💥', '🚀', '🎪']
+  },
+  'retro-font-generator': {
+    name: 'Retro Font',
+    category: 'vintage',
+    unicodeRanges: [
+      { start: 0x1D504, end: 0x1D537 }, // Fraktur
+      { start: 0x1D49C, end: 0x1D4CF }, // Script
+    ],
+    decorators: ['📻', '📺', '🎞️', '📼', '💿', '📀', '🎵', '🎶', '🎤', '🎧']
+  },
+  'vintage-font-generator': {
+    name: 'Vintage Font',
+    category: 'classic',
+    unicodeRanges: [
+      { start: 0x1D504, end: 0x1D537 }, // Fraktur
+      { start: 0x1D56C, end: 0x1D59F }, // Bold Fraktur
+    ],
+    decorators: ['🕰️', '⏰', '📜', '🗞️', '📰', '📖', '📚', '🖋️', '✒️', '🕯️']
+  },
+  'neon-font-generator': {
+    name: 'Neon Font',
+    category: 'glowing',
+    unicodeRanges: [
+      { start: 0x1D5D4, end: 0x1D607 }, // Sans-serif Bold
+      { start: 0x1D63C, end: 0x1D66F }, // Sans-serif Bold Italic
+    ],
+    decorators: ['💡', '🌟', '✨', '💫', '⚡', '🔥', '🌈', '🎆', '🎇', '💎']
+  },
+  'glitch-font-generator': {
+    name: 'Glitch Font',
+    category: 'corrupted',
+    unicodeRanges: [],
+    decorators: ['⚡', '💥', '🔥', '👾', '🤖', '💻', '📺', '🎮', '🕹️', '⚠️'],
+    glitchChars: ['҉', '̸', '̷', '̴', '̵', '̶', '̡', '̢', '̧', '̨', '̩', '̪', '̫', '̬', '̭', '̮']
+  }
 };
 
 // Extended Unicode blocks for more variations
@@ -60,13 +258,42 @@ const UNICODE_BLOCKS = {
 // Helper function to get a character from a block with variant offset
 const getCharFromBlock = (baseChar: string, block: { start: number; end: number }, variant: number = 0): string => {
   const code = baseChar.charCodeAt(0);
-  if (code >= 65 && code <= 90) { // Uppercase
-    const offset = (variant * 26) % (block.end - block.start - 25);
-    return String.fromCodePoint(block.start + (code - 65) + offset);
-  } else if (code >= 97 && code <= 122) { // Lowercase
-    const offset = (variant * 26) % (block.end - block.start - 25);
-    return String.fromCodePoint(block.start + (code - 97) + 26 + offset);
+  
+  // Handle uppercase letters (A-Z)
+  if (code >= 65 && code <= 90) {
+    const blockSize = block.end - block.start + 1;
+    const offset = (variant * 26) % (blockSize - 25);
+    const charCode = block.start + (code - 65) + offset;
+    
+    // Ensure the character code is within the valid range
+    if (charCode <= block.end) {
+      return String.fromCodePoint(charCode);
+    }
   }
+  // Handle lowercase letters (a-z)
+  else if (code >= 97 && code <= 122) {
+    const blockSize = block.end - block.start + 1;
+    const offset = (variant * 26) % (blockSize - 25);
+    const charCode = block.start + 26 + (code - 97) + offset;
+    
+    // Ensure the character code is within the valid range
+    if (charCode <= block.end) {
+      return String.fromCodePoint(charCode);
+    }
+  }
+  // Handle numbers (0-9)
+  else if (code >= 48 && code <= 57) {
+    const blockSize = block.end - block.start + 1;
+    const offset = (variant * 10) % (blockSize - 9);
+    const charCode = block.start + (code - 48) + offset;
+    
+    // Ensure the character code is within the valid range
+    if (charCode <= block.end) {
+      return String.fromCodePoint(charCode);
+    }
+  }
+  
+  // Return the original character if no transformation is applied
   return baseChar;
 };
 
@@ -76,6 +303,10 @@ const getCharFromBlock = (baseChar: string, block: { start: number; end: number 
 
 // Function to generate unique variations for each font type
 const generateFontVariations = (baseText: string, count: number, type: string): UnicodeVariation[] => {
+  // If no text is provided, return an empty array
+  if (!baseText || baseText.trim() === '') {
+    return [];
+  }
   
   // Define unicode character ranges for different styles with multiple variants
   const styles: StyleVariations = {
@@ -180,16 +411,51 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
     const code = c.charCodeAt(0);
     let result = '';
     
-    if (code >= 65 && code <= 90) {
-      result = typeof style.uppercase === 'function' 
-        ? style.uppercase(c, variant)
-        : (style.uppercase as string[])[code - 65] || c;
-    } else if (code >= 97 && code <= 122) {
-      result = typeof style.lowercase === 'function'
-        ? style.lowercase(c, variant)
-        : (style.lowercase as string[])[code - 97] || c;
-    } else {
-      result = c;
+    try {
+      // Handle uppercase letters (A-Z)
+      if (code >= 65 && code <= 90) {
+        if (typeof style.uppercase === 'function') {
+          result = style.uppercase(c, variant);
+        } else if (Array.isArray(style.uppercase) && style.uppercase[code - 65]) {
+          result = style.uppercase[code - 65];
+        } else {
+          result = c; // Return original character if no transformation is defined
+        }
+      }
+      // Handle lowercase letters (a-z)
+      else if (code >= 97 && code <= 122) {
+        if (typeof style.lowercase === 'function') {
+          result = style.lowercase(c, variant);
+        } else if (Array.isArray(style.lowercase) && style.lowercase[code - 97]) {
+          result = style.lowercase[code - 97];
+        } else {
+          result = c; // Return original character if no transformation is defined
+        }
+      }
+      // Handle numbers (0-9)
+      else if (code >= 48 && code <= 57) {
+        // For numbers, we can use the same transformation as uppercase letters
+        // or provide a custom transformation if needed
+        if (typeof style.uppercase === 'function') {
+          result = style.uppercase(String.fromCharCode(code + 17), variant);
+        } else if (Array.isArray(style.uppercase) && style.uppercase[code - 48]) {
+          result = style.uppercase[code - 48];
+        } else {
+          result = c; // Return original character if no transformation is defined
+        }
+      }
+      // Handle other characters (spaces, punctuation, etc.)
+      else {
+        result = c; // Return original character for other characters
+      }
+      
+      // Ensure the result is a valid string
+      if (typeof result !== 'string' || result === '') {
+        result = c;
+      }
+    } catch (error) {
+      console.error('Error applying style:', error);
+      result = c; // Return original character if an error occurs
     }
     
     return {
@@ -287,29 +553,81 @@ const variationCache: {[key: string]: UnicodeVariation[]} = {};
 
 // Function to get variations for a specific font type
 export const getFontVariations = (fontType: string, baseText: string, count: number = 300): UnicodeVariation[] => {
-  const cacheKey = `${fontType}-${baseText}`;
-  
-  if (!variationCache[cacheKey]) {
-    variationCache[cacheKey] = generateFontVariations(baseText, count, fontType);
+  // If no text is provided, return an empty array
+  if (!baseText || baseText.trim() === '') {
+    return [];
   }
+
+  // Create a cache key that includes the font type, text, and count
+  const cacheKey = `${fontType}:${baseText.substring(0, 50)}:${count}`;
   
-  return variationCache[cacheKey];
+  try {
+    // Return cached result if available
+    if (variationCache[cacheKey]) {
+      return variationCache[cacheKey];
+    }
+    
+    // Generate the variations
+    const variations = generateFontVariations(baseText, count, fontType);
+    
+    // Cache the result
+    variationCache[cacheKey] = variations;
+    
+    // Prevent memory leaks by limiting cache size
+    const cacheKeys = Object.keys(variationCache);
+    if (cacheKeys.length > 1000) {
+      // Remove the oldest entries (first 100)
+      for (let i = 0; i < 100; i++) {
+        delete variationCache[cacheKeys[i]];
+      }
+    }
+    
+    return variations;
+  } catch (error) {
+    console.error(`Error generating font variations for type '${fontType}':`, error);
+    
+    // Return a default variation if there's an error
+    return [{
+      id: 0,
+      name: 'Default',
+      unicode: baseText,
+      preview: baseText.length > 20 ? baseText.substring(0, 20) + '...' : baseText,
+      className: ''
+    }];
+  }
 };
 
 // Function to get all font variations for a platform
 export const getAllFontVariations = (baseText: string): FontVariations => {
   const allVariations: FontVariations = {};
   
-  // Define default font types if FONT_TYPES is not available
-  const fontTypes = FONT_TYPES || [
-    'fancy', 'bold', 'italic', 'cursive', 'bubble', 
-    'strikethrough', 'underline', 'small-caps', 'reverse', 'zalgo',
-    'bold-italic', 'bold-cursive', 'italic-cursive', 'bold-italic-cursive'
-  ];
+  // Return empty result if no text is provided
+  if (!baseText || baseText.trim() === '') {
+    return allVariations;
+  }
   
-  fontTypes.forEach(fontType => {
-    allVariations[fontType] = getFontVariations(fontType, baseText, 300);
-  });
-  
-  return allVariations;
+  try {
+    // Define default font types if FONT_TYPES is not available
+    const fontTypes = FONT_TYPES || [
+      'fancy', 'bold', 'italic', 'cursive', 'bubble', 
+      'strikethrough', 'underline', 'smallCaps', 'reverse', 'zalgo',
+      'boldItalic', 'boldCursive', 'italicCursive'
+    ];
+    
+    // Generate variations for each font type
+    for (const fontType of fontTypes) {
+      try {
+        allVariations[fontType] = getFontVariations(fontType, baseText, 300);
+      } catch (error) {
+        console.error(`Error generating variations for font type '${fontType}':`, error);
+        // Skip this font type if there's an error
+        continue;
+      }
+    }
+    
+    return allVariations;
+  } catch (error) {
+    console.error('Error generating all font variations:', error);
+    return {};
+  }
 };

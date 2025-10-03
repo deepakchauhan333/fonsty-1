@@ -50,13 +50,17 @@ export default function Header() {
             </Link>
           </div>
           
-          <nav className="hidden md:ml-6 md:flex space-x-8">
+          <nav className="hidden md:ml-6 md:flex md:space-x-4 lg:space-x-8">
+            <Link href="/about" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+              About
+            </Link>
+            
             <div className="relative group">
               <button 
                 onClick={() => toggleDropdown('platforms')}
                 className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium flex items-center"
               >
-                Social Platforms
+                Platforms
                 <svg className="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
@@ -84,7 +88,7 @@ export default function Header() {
                 onClick={() => toggleDropdown('fonts')}
                 className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium flex items-center"
               >
-                Font Types
+                Fonts
                 <svg className="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
@@ -142,6 +146,13 @@ export default function Header() {
       {/* Mobile menu, show/hide based on menu state. */}
       <div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
         <div className="pt-2 pb-3 space-y-1">
+          <Link
+            href="/about"
+            className="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            onClick={() => setIsOpen(false)}
+          >
+            About Us
+          </Link>
           <div className="px-4 py-2 font-medium text-gray-900">Social Platforms</div>
           <div className="grid grid-cols-2 gap-1 px-4">
             {socialPlatforms.map((platform) => (
