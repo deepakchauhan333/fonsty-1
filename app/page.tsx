@@ -132,7 +132,7 @@ export default function Home() {
       <header className="bg-white/80 backdrop-blur-md border-b border-purple-100/50 sticky top-0 z-10 shadow-sm">
         <div className="max-w-4xl mx-auto px-4 py-4">
           {/* Social Media Links */}
-          <div className="flex justify-center space-x-6 mb-4">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-4">
             {socialMedia.map((platform) => (
               <a
                 key={platform.name}

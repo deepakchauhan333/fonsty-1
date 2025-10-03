@@ -127,7 +127,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={cn('min-h-screen bg-gray-50 font-sans antialiased', 'font-sans')}>
+      <body className={cn('min-h-screen bg-gray-50 font-sans antialiased overflow-x-hidden', 'font-sans')}>
         <div className="relative flex min-h-screen flex-col">
           <Header />
           <main className="flex-1 container mx-auto px-4 py-8">
