@@ -15,7 +15,7 @@ export function generateFontGeneratorMetadata({
   slug,
   primaryKeyword,
   secondaryKeywords,
-  faqs = [],
+  faqs: _faqs = [],
 }: FontGeneratorPageProps): Metadata {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
   const pageUrl = `${siteUrl}${slug}`;
@@ -65,12 +65,14 @@ export function generateJsonLd({
   faqs?: Array<{ question: string; answer: string }>;
 }) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://yourdomain.com';
+  const pageUrl = `${siteUrl}${slug}`;
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
     name: title,
     description: description,
+    url: pageUrl,
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'Web Browser',
     offers: {

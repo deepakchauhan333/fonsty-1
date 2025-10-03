@@ -7,8 +7,8 @@ export type UnicodeVariation = {
   unicode: string;
   preview: string;
   className?: string;
-  category: string;
-  fontType: string;
+  category?: string;
+  fontType?: string;
 };
 
 type FontVariations = {
@@ -25,12 +25,12 @@ type StyleVariations = {
     marks?: string[];
     variants?: number;
     className?: string;
-    category: string;
+    category?: string;
   };
 };
 
 // 21 Font Type Categories with specialized Unicode ranges
-const FONT_TYPE_CONFIGS = {
+const _FONT_TYPE_CONFIGS = {
   'fancy-font-generator': {
     name: 'Fancy Font',
     category: 'decorative',
@@ -506,7 +506,8 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
         name: `${fontTypeKey.charAt(0).toUpperCase() + fontTypeKey.slice(1)} Style ${i + 1}`,
         unicode: transformedText,
         preview: transformedText.substring(0, 20) + (transformedText.length > 20 ? '...' : ''),
-        className: classNames
+        className: classNames,
+        fontType: type
       });
     }
     
@@ -535,7 +536,8 @@ const generateFontVariations = (baseText: string, count: number, type: string): 
           id: baseCount + i,
           name: `${fontTypeKey.charAt(0).toUpperCase() + fontTypeKey.slice(1)}-${otherKey} Combo ${i + 1}`,
           unicode: combinedText,
-          preview: combinedText.substring(0, 20) + (combinedText.length > 20 ? '...' : '')
+          preview: combinedText.substring(0, 20) + (combinedText.length > 20 ? '...' : ''),
+          fontType: type
         });
       }
     }
@@ -592,7 +594,8 @@ export const getFontVariations = (fontType: string, baseText: string, count: num
       name: 'Default',
       unicode: baseText,
       preview: baseText.length > 20 ? baseText.substring(0, 20) + '...' : baseText,
-      className: ''
+      className: '',
+      fontType: fontType
     }];
   }
 };

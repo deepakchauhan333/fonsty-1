@@ -11,8 +11,22 @@ export type UnicodeVariation = {
   fontType: string;
 };
 
+type UnicodeRange = { start: number; end: number };
+
+interface FontTypeConfig {
+  name: string;
+  category: string;
+  unicodeRanges?: UnicodeRange[];
+  decorators?: string[];
+  className?: string;
+  combiningMarks?: string[];
+  mirrorMap?: Record<string, string>;
+  upsideDownMap?: Record<string, string>;
+  glitchChars?: string[];
+}
+
 // 21 Font Type Categories with specialized Unicode ranges
-const FONT_TYPE_CONFIGS = {
+const FONT_TYPE_CONFIGS: Record<string, FontTypeConfig> = {
   'fancy-font-generator': {
     name: 'Fancy Font',
     category: 'decorative',
@@ -249,10 +263,11 @@ export const generateFontTypeVariations = (fontType: string, baseText: string): 
     let decoratedText = '';
     
     // Apply font-specific transformations
-    if (config.unicodeRanges && config.unicodeRanges.length > 0) {
-      const range = config.unicodeRanges[i % config.unicodeRanges.length];
+    const ranges = config.unicodeRanges ?? [];
+    if (ranges.length > 0) {
+      const range = ranges[i % ranges.length];
       transformedText = [...baseText].map(char => 
-        getCharFromUnicodeRange(char, range, Math.floor(i / config.unicodeRanges.length))
+        getCharFromUnicodeRange(char, range, Math.floor(i / ranges.length))
       ).join('');
     }
 
@@ -296,13 +311,14 @@ export const generateFontTypeVariations = (fontType: string, baseText: string): 
     }
 
     // Add decorative elements
-    const decoratorCount = Math.min(2 + (i % 3), config.decorators.length);
+    const decorators = config.decorators ?? [];
+    const decoratorCount = Math.min(2 + (i % 3), decorators.length);
     const leftDecorators = [];
     const rightDecorators = [];
     
     for (let j = 0; j < decoratorCount; j++) {
-      leftDecorators.push(config.decorators[(i + j) % config.decorators.length]);
-      rightDecorators.push(config.decorators[(i + j + decoratorCount) % config.decorators.length]);
+      leftDecorators.push(decorators[(i + j) % decorators.length]);
+      rightDecorators.push(decorators[(i + j + decoratorCount) % decorators.length]);
     }
 
     // Create different decoration patterns
