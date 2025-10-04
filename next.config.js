@@ -48,7 +48,20 @@ const nextConfig = {
   
   // Image optimization
   images: {
-    domains: ['fonts.gstatic.com', 'www.google.com', 'localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'fonts.gstatic.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.google.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.fontforsocial.com',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 86400, // 24 hours
   },

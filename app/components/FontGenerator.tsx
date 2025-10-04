@@ -25,6 +25,27 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
   const [fontPreviews, setFontPreviews] = useState<UnicodeVariation[]>([]);
   const [showCopied, setShowCopied] = useState<number | null>(null);
 
+  // SEO-focused headings to insert between cards
+  const h2Headings: string[] = [
+    'Instagram Font Generator',
+    'Facebook Font Generator',
+    'Stylish Name Font Generator',
+    'Fancy Font Generator',
+    'Cursive Font Generator',
+    'Bold Font Generator',
+    'Bubble Font Generator',
+    'Birthday Font Generator',
+    'Attitude Font Generator',
+    'Boys Name Font Generator',
+    'Girls Name Font Generator',
+    'Aesthetic Font Generator',
+    'Cool Font Generator',
+    'Gaming Font Generator',
+    'Bio Fonts Generator',
+    'Love Font Generator',
+    'Cute Font Generator',
+  ];
+
   const sanitizeInput = (text: string): string => {
     // Remove potentially dangerous characters and limit length
     return text
@@ -91,13 +112,20 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
           </span>
         </div>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-          {fontPreviews.map((font) => (
-            <OptimizedFontCard
-              key={`${font.id}-${font.name}`}
-              font={font}
-              variant="grid"
-            />
+        <div className="grid grid-cols-1 gap-3">
+          {fontPreviews.map((font, idx) => (
+            <>
+              {idx > 0 && idx % 12 === 0 && (
+                <h2 key={`h2-${idx}`} className="text-xl md:text-2xl font-bold text-gray-800 mt-6 mb-2">
+                  {h2Headings[(idx / 12 - 1) % h2Headings.length]}
+                </h2>
+              )}
+              <OptimizedFontCard
+                key={`${font.id}-${font.name}`}
+                font={font}
+                variant="grid"
+              />
+            </>
           ))}
         </div>
       </div>

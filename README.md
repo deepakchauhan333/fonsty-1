@@ -102,8 +102,8 @@ Create a `.env.local` file with the following variables:
 
 ```env
 # Site Configuration
-NEXT_PUBLIC_SITE_URL=https://fontys.vercel.app
-NEXT_PUBLIC_SITE_NAME=Font Generator
+NEXT_PUBLIC_SITE_URL=https://www.fontforsocial.com
+NEXT_PUBLIC_SITE_NAME=FontForSocial
 NEXT_PUBLIC_SITE_DESCRIPTION=Generate beautiful text with 1000+ fonts
 
 # Analytics (Optional)

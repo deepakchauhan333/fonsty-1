@@ -11,4 +11,4 @@ Disallow: /_next/
 Crawl-delay: 10
 
 # Sitemap location
-Sitemap: https://fontys.vercel.app/sitemap.xml
+Sitemap: https://www.fontforsocial.com/sitemap.xml

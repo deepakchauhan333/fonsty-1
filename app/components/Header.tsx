@@ -43,10 +43,18 @@ export default function Header() {
     <header className="bg-white shadow-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          <div className="flex
-          ">
+          <div className="flex">
             <Link href="/" className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-gray-900">Font Generator</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src="/logo.png?v=2" 
+                alt="FontForSocial.com" 
+                className="h-16 w-auto object-contain"
+                onError={(e) => {
+                  // Fallback to favicon if logo.png fails to load
+                  e.currentTarget.src = '/favicon.webp';
+                }}
+              />
             </Link>
           </div>
           

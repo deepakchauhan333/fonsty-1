@@ -59,8 +59,11 @@ const SPECIAL_MAPS = {
   upsideDown: { a: 'ɐ', b: 'q', c: 'ɔ', d: 'p', e: 'ǝ', f: 'ɟ', g: 'ƃ', h: 'ɥ', i: 'ᴉ', j: 'ɾ', k: 'ʞ', l: 'l', m: 'ɯ', n: 'u', o: 'o', p: 'd', q: 'b', r: 'ɹ', s: 's', t: 'ʇ', u: 'n', v: 'ʌ', w: 'ʍ', x: 'x', y: 'ʎ', z: 'z' },
 };
 
-// Minimal decorators for better performance
-const DECORATORS = ['✨', '⭐', '💫', '🌟', '✦', '✧', '★', '☆', '◆', '◇'];
+// Expanded decorators, including complex flourishes
+const DECORATORS = [
+  '✨', '⭐', '💫', '🌟', '✦', '✧', '★', '☆', '◆', '◇', '👺', '👌', '💝', '⚡', '❇️', '🪄',
+  '<:::::[]=¤', '(▀̿̿Ĺ̯̿̿▀̿ ̿)', '✪', '✯', '✵', '☄️', '♛', '♜', '♞'
+];
 
 // Transform text based on font type
 const transformText = (text: string, fontType: string, variant: number): string => {
@@ -174,18 +177,12 @@ export const generateFontTypeVariations = (fontType: string, baseText: string, c
   for (let i = 0; i < count; i++) {
     const transformed = transformText(baseText, fontType, i);
     
-    // Add decorators only to some variations (not all for performance)
-    let decorated = transformed;
-    if (i % 4 === 0) {
-      const deco = DECORATORS[i % DECORATORS.length];
-      decorated = `${deco} ${transformed} ${deco}`;
-    } else if (i % 4 === 1) {
-      const deco = DECORATORS[i % DECORATORS.length];
-      decorated = `${deco} ${transformed}`;
-    } else if (i % 4 === 2) {
-      const deco = DECORATORS[i % DECORATORS.length];
-      decorated = `${transformed} ${deco}`;
-    }
+    // Always add 3–4 decorators on both sides for visual flourish
+    const leftCount = 3 + (i % 2); // 3 or 4
+    const rightCount = 3 + ((i + 1) % 2); // 3 or 4 (alternating)
+    const left = Array.from({ length: leftCount }, (_, idx) => DECORATORS[(i + idx) % DECORATORS.length]).join(' ');
+    const right = Array.from({ length: rightCount }, (_, idx) => DECORATORS[(i + leftCount + idx) % DECORATORS.length]).join(' ');
+    const decorated = `${left} ${transformed} ${right}`;
     
     variations.push({
       id: i + 1,

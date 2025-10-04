@@ -12,8 +12,8 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fontys.vercel.app';
-const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Font Generator';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com';
+const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'FontForSocial';
 const siteDescription = process.env.NEXT_PUBLIC_SITE_DESCRIPTION || 'Generate beautiful text with 1000+ fonts for social media, logos, and more';
 
 export const metadata: Metadata = {
@@ -122,6 +122,11 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="icon" type="image/webp" href="/favicon.webp" />
+        <link rel="icon" type="image/webp" sizes="32x32" href="/favicon.webp" />
+        <link rel="icon" type="image/webp" sizes="16x16" href="/favicon.webp" />
+        <link rel="apple-touch-icon" href="/favicon.webp" />
+        <link rel="shortcut icon" href="/favicon.webp" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
