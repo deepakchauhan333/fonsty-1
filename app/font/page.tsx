@@ -46,7 +46,7 @@ export default function FontListingPage() {
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
-            1000+ Font Generators
+            1000+ Diffrant Font Generators
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Transform your text with over 1000 unique font styles. Perfect for social media bios, 
