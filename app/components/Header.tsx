@@ -103,38 +103,6 @@ export default function Header() {
               )}
             </div>
             
-            <div className="relative flex items-center">
-              <button 
-                onClick={() => toggleDropdown('fonts')}
-                className="text-white hover:text-yellow-200 px-3 py-2 rounded-md text-base font-medium flex items-center transition-colors"
-              >
-                Fonts
-                <svg className="ml-1 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-                </svg>
-              </button>
-              
-              {selectedPlatform === 'fonts' && (
-                <>
-                  <div className="fixed inset-0 z-10" onClick={closeDropdown}></div>
-                  <div className="absolute left-0 top-full mt-2 w-56 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-20 max-h-96 overflow-y-auto">
-                    <div className="py-2">
-                      {fontTypes.map((font) => (
-                        <Link
-                          key={font}
-                          href={`/${currentPlatform || 'facebook'}/${font}-font-generator`}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-100 transition-colors"
-                          onClick={closeDropdown}
-                        >
-                          {font.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-            
             <Link href="/font" className="text-white hover:text-yellow-200 px-3 py-2 rounded-md text-base font-medium transition-colors">
               All Fonts
             </Link>
@@ -211,20 +179,6 @@ export default function Header() {
               >
                 <span className="mr-2">{platform.icon}</span>
                 {platform.name}
-              </Link>
-            ))}
-          </div>
-          
-          <div className="px-4 py-2 font-medium text-gray-900 mt-4">Font Types</div>
-          <div className="grid grid-cols-2 gap-1 px-4">
-            {fontTypes.map((font) => (
-              <Link
-                key={font}
-                href={`/${currentPlatform || 'facebook'}/${font}-font-generator`}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-purple-100 rounded-md"
-                onClick={() => setIsOpen(false)}
-              >
-                {font.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
               </Link>
             ))}
           </div>

@@ -5,7 +5,7 @@ export function Footer() {
         {/* Copyright */}
         <div className="text-center">
           <p className="text-sm text-gray-500">
-            Built with ❤️ by an expert Next.js developer. All rights reserved.
+            Built with ❤️ by an expert Next.js developer Deepak ChauhanS. All rights reserved.
           </p>
         </div>
       </div>

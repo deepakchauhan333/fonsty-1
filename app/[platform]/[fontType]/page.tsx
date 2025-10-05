@@ -104,10 +104,13 @@ export default function Page({ params }: PageProps) {
     },
     publisher: {
       '@type': 'Organization',
-      name: 'Font Generator',
+      name: 'FONTFORSOCIAL.COM',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com',
       logo: {
         '@type': 'ImageObject',
         url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/logo.png`,
+        width: 200,
+        height: 64,
       },
     },
     breadcrumb: breadcrumbSchema,
@@ -298,9 +301,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title,
     description,
     keywords: keywords.join(', '),
-    authors: [{ name: 'Font Generator' }],
-    creator: 'Font Generator',
-    publisher: 'Font Generator',
+    authors: [{ name: 'Deepak Chauhan' }],
+    creator: 'FONTFORSOCIAL.COM',
+    publisher: 'FONTFORSOCIAL.COM',
     alternates: {
       canonical: url,
     },
@@ -319,7 +322,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title: `${fontStyle} Font Generator for ${platformName}`,
       description,
       url,
-      siteName: 'Font Generator',
+      siteName: 'FONTFORSOCIAL.COM',
       locale: 'en_US',
       type: 'website',
       images: [{

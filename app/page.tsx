@@ -30,9 +30,9 @@ export default function Home() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'Font Generator',
+    name: 'FONTFORSOCIAL.COM - Font Generator',
     url: siteUrl,
-    description: 'Free font generator with 1000+ Unicode fonts for social media',
+    description: 'Free font generator with 1000+ Unicode fonts for Instagram, Facebook, TikTok, and all social media platforms',
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'Any',
     datePublished: '2025-09-04T00:00:00Z',
@@ -42,6 +42,15 @@ export default function Home() {
       name: 'Deepak Chauhan',
       url: 'https://www.linkedin.com/in/deepakchauhan333/',
       email: 'dc556316@gmail.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FONTFORSOCIAL.COM',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
     },
     offers: {
       '@type': 'Offer',

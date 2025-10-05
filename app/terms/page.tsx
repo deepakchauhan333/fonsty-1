@@ -21,8 +21,8 @@ export default function TermsPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebPage',
-    name: 'Terms of Service',
-    description: 'Terms of service for Font Generator',
+    name: 'Terms of Service - FONTFORSOCIAL.COM',
+    description: 'Terms of service for FONTFORSOCIAL.COM font generator',
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/terms`,
     datePublished: '2025-09-04T00:00:00Z',
     dateModified: new Date().toISOString(),
@@ -31,6 +31,15 @@ export default function TermsPage() {
       name: 'Deepak Chauhan',
       url: 'https://www.linkedin.com/in/deepakchauhan333/',
       email: 'dc556316@gmail.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FONTFORSOCIAL.COM',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/logo.png`,
+      },
     },
   };
 

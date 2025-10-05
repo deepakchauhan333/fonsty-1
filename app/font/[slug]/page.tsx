@@ -22,10 +22,66 @@ export default function FontPage({ params }: PageProps) {
   const description = getFontDescription(slug);
   const relatedFonts = getRelatedFonts(slug, 25);
   const { fontName: googleFontName, fontUrl } = getFontMapping(slug);
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com';
+
+  // Schema for individual font page
+  const fontSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: `${fontName} Font Generator`,
+    description: description,
+    url: `${siteUrl}/font/${slug}`,
+    datePublished: '2025-09-04T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FONTFORSOCIAL.COM',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
+    },
+    breadcrumb: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Fonts',
+          item: `${siteUrl}/font`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: fontName,
+          item: `${siteUrl}/font/${slug}`,
+        },
+      ],
+    },
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(fontSchema) }}
+      />
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
         {/* Breadcrumb */}
         <nav className="flex items-center text-sm text-gray-600 mb-6">
           <Link href="/" className="hover:text-blue-600">Home</Link>
@@ -132,6 +188,7 @@ export default function FontPage({ params }: PageProps) {
         </section>
       </div>
     </div>
+    </>
   );
 }
 
@@ -155,7 +212,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const fontName = getFontDisplayName(slug);
   const description = getFontDescription(slug);
   const title = `${fontName} Font Generator - Free Online Text Converter`;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://fontys.vercel.app';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com';
   const url = `${siteUrl}/font/${slug}`;
 
   return {
@@ -175,9 +232,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       'discord fonts',
       'social media fonts',
     ].join(', '),
-    authors: [{ name: 'Font Generator' }],
-    creator: 'Font Generator',
-    publisher: 'Font Generator',
+    authors: [{ name: 'Deepak Chauhan' }],
+    creator: 'FONTFORSOCIAL.COM',
+    publisher: 'FONTFORSOCIAL.COM',
     alternates: {
       canonical: url,
     },
@@ -196,7 +253,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       url,
-      siteName: 'Font Generator',
+      siteName: 'FONTFORSOCIAL.COM',
       locale: 'en_US',
       type: 'website',
     },

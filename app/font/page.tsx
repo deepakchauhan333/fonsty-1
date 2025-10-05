@@ -9,8 +9,40 @@ export const metadata: Metadata = {
 };
 
 export default function FontListingPage() {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com';
+  
+  const fontListingSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: '1000+ Font Generators',
+    description: 'Browse over 1000 unique font styles and text generators for Instagram, TikTok, Discord, and all social media platforms.',
+    url: `${siteUrl}/font`,
+    datePublished: '2025-09-04T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FONTFORSOCIAL.COM',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(fontListingSchema) }}
+      />
+      <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-gray-900 mb-4">
@@ -56,5 +88,6 @@ export default function FontListingPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

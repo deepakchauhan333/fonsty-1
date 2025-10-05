@@ -96,30 +96,58 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const jsonLd = {
+  // Organization Schema
+  const organizationSchema = {
     '@context': 'https://schema.org',
-    '@type': 'WebApplication',
-    name: siteName,
+    '@type': 'Organization',
+    name: 'FONTFORSOCIAL.COM',
     url: siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteUrl}/logo.png`,
+      width: 200,
+      height: 64,
+    },
     description: siteDescription,
-    applicationCategory: 'UtilityApplication',
-    operatingSystem: 'Any',
-    datePublished: '2025-09-04T00:00:00Z',
-    author: {
+    foundingDate: '2025',
+    founder: {
       '@type': 'Person',
       name: 'Deepak Chauhan',
       url: 'https://www.linkedin.com/in/deepakchauhan333/',
       email: 'dc556316@gmail.com',
     },
-    offers: {
-      '@type': 'Offer',
-      price: '0',
-      priceCurrency: 'USD',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'dc556316@gmail.com',
+      contactType: 'Customer Support',
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.8',
-      ratingCount: '1250',
+    sameAs: [
+      'https://www.linkedin.com/in/deepakchauhan333/',
+    ],
+  };
+
+  // WebSite Schema
+  const websiteSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'FONTFORSOCIAL.COM',
+    url: siteUrl,
+    description: siteDescription,
+    publisher: {
+      '@type': 'Organization',
+      name: 'FONTFORSOCIAL.COM',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${siteUrl}/font/{search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
     },
   };
 
@@ -143,10 +171,15 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.webp" />
         <link rel="shortcut icon" href="/favicon.webp" />
         
-        {/* Structured Data */}
+        {/* Structured Data - Organization */}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+        {/* Structured Data - WebSite */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
       <body className={cn('min-h-screen bg-gray-50 font-sans antialiased overflow-x-hidden', 'font-sans')}>

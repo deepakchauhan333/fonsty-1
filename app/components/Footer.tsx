@@ -76,7 +76,7 @@ export function Footer() {
         
         {/* Bottom Bar */}
         <div className="border-t border-purple-700 pt-6 text-center text-sm text-purple-100">
-          <p>Made with ❤️ for creators worldwide | No registration required | 100% Free Forever</p>
+          <p>Made with ❤️ for All Social Users | No registration required | 100% Free Forever</p>
         </div>
       </div>
     </footer>

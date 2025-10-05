@@ -14,6 +14,7 @@ export default function PlatformPage({ params }: { params: PlatformType }) {
   }
 
   const platformName = PLATFORM_NAMES[platform] || platform;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com';
   
   // Format font type for display
   const formatFontType = (fontType: string) => {
@@ -26,8 +27,57 @@ export default function PlatformPage({ params }: { params: PlatformType }) {
       .trim();
   };
 
+  // Schema for platform page
+  const platformSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: `${platformName} Font Generators`,
+    description: `Generate beautiful fonts for ${platformName}. Choose from 70+ font styles for your ${platformName} posts, bios, and captions.`,
+    url: `${siteUrl}/${platform}`,
+    datePublished: '2025-09-04T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FONTFORSOCIAL.COM',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo.png`,
+      },
+    },
+    breadcrumb: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteUrl,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: platformName,
+          item: `${siteUrl}/${platform}`,
+        },
+      ],
+    },
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(platformSchema) }}
+      />
+      <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">{platformName} Font Generators</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {FONT_TYPES.map((fontType) => (
@@ -43,6 +93,7 @@ export default function PlatformPage({ params }: { params: PlatformType }) {
         ))}
       </div>
     </div>
+    </>
   );
 }
 

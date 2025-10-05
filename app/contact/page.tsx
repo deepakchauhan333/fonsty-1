@@ -22,8 +22,8 @@ export default function ContactPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ContactPage',
-    name: 'Contact Font Generator',
-    description: 'Contact page for Font Generator support and inquiries',
+    name: 'Contact FONTFORSOCIAL.COM',
+    description: 'Contact page for FONTFORSOCIAL.COM support and inquiries',
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/contact`,
     datePublished: '2025-09-04T00:00:00Z',
     dateModified: new Date().toISOString(),
@@ -32,6 +32,15 @@ export default function ContactPage() {
       name: 'Deepak Chauhan',
       url: 'https://www.linkedin.com/in/deepakchauhan333/',
       email: 'dc556316@gmail.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'FONTFORSOCIAL.COM',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/logo.png`,
+      },
     },
   };
 

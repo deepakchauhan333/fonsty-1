@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About - Free Unicode Font Generator Tool',
-  description: 'Learn about our free font generator with 1000+ Unicode fonts for Instagram, Facebook, TikTok & more. Trusted by millions of creators worldwide since 2024.',
+  title: 'About - Free Unicode FONTFORSOCIAL.COM Tool',
+  description: 'Learn about our free FONTFORSOCIAL.COM with 1000+ Unicode fonts for Instagram, Facebook, TikTok & more. Trusted by millions of creators worldwide since 2024.',
   alternates: {
     canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/about`,
   },
@@ -12,8 +12,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    title: 'About - Font Generator',
-    description: 'Free font generator with 1000+ Unicode fonts for social media. Trusted by millions.',
+    title: 'About - FONTFORSOCIAL.COM',
+    description: 'Free FONTFORSOCIAL.COM with 1000+ Unicode fonts for social media. Trusted by millions.',
     type: 'website',
   },
 };
@@ -22,8 +22,8 @@ export default function AboutPage() {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
-    name: 'About Font Generator',
-    description: 'Learn about Font Generator - a free Unicode font tool for social media',
+    name: 'About FONTFORSOCIAL.COM',
+    description: 'Learn about FONTFORSOCIAL.COM - a free Unicode font tool for social media',
     url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/about`,
     datePublished: '2025-09-04T00:00:00Z',
     dateModified: new Date().toISOString(),
@@ -35,9 +35,9 @@ export default function AboutPage() {
     },
     mainEntity: {
       '@type': 'Organization',
-      name: 'Font Generator',
+      name: 'FONTFORSOCIAL.COM',
       url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com',
-      description: 'Free online font generator with 1000+ Unicode fonts for social media',
+      description: 'Free online FONTFORSOCIAL.COM with 1000+ Unicode fonts for social media',
       foundingDate: '2025',
       founder: {
         '@type': 'Person',
@@ -55,19 +55,19 @@ export default function AboutPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold text-gray-900 mb-6">About Font Generator</h1>
+      <h1 className="text-4xl font-bold text-gray-900 mb-6">About FONTFORSOCIAL.COM</h1>
       
       <div className="prose prose-lg max-w-none">
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">What We Do</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
-            Font Generator is a free online tool that allows you to create beautiful, stylish text using Unicode characters. 
+            FONTFORSOCIAL.COM is a free online tool that allows you to create beautiful, stylish text using Unicode characters. 
             Our platform offers over 1000+ unique font styles that you can use across all social media platforms, websites, 
             and messaging apps.
           </p>
           <p className="text-gray-700 leading-relaxed">
             Whether you're looking to make your Instagram bio stand out, create eye-catching Facebook posts, or add style 
-            to your TikTok captions, our font generator has you covered with a wide variety of fancy, cursive, bold, and 
+            to your TikTok captions, our FONTFORSOCIAL.COM has you covered with a wide variety of fancy, cursive, bold, and 
             decorative text styles.
           </p>
         </section>
@@ -75,7 +75,7 @@ export default function AboutPage() {
         <section className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-4">How It Works</h2>
           <p className="text-gray-700 leading-relaxed mb-4">
-            Our font generator uses Unicode characters to transform your regular text into stylish fonts. These aren't 
+            Our FONTFORSOCIAL.COM uses Unicode characters to transform your regular text into stylish fonts. These aren't 
             traditional fonts - they're special Unicode characters that look like different font styles but work everywhere 
             that supports Unicode text (which is almost everywhere!).
           </p>
