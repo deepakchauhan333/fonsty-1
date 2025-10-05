@@ -85,8 +85,8 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
           ✨ Generate beautiful {formattedFontName.toLowerCase()} text for {platformName}. Click any style to copy instantly.
         </p>
         
-        <div className="sticky top-16 z-40 bg-white pb-4 mb-4 shadow-sm">
-          <label htmlFor="inputText" className="block text-sm font-semibold text-gray-700 mb-3 pt-4">
+        <div className="sticky top-[64px] z-40 bg-gradient-to-b from-white via-white to-white/95 backdrop-blur-sm py-4 -mx-4 px-4 mb-4 shadow-md border-b border-gray-200">
+          <label htmlFor="inputText" className="block text-sm font-semibold text-gray-700 mb-3">
             ✍️ Enter your text:
           </label>
           <input
@@ -94,7 +94,7 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
             id="inputText"
             value={inputText}
             onChange={(e) => setInputText(sanitizeInput(e.target.value))}
-            className="w-full px-5 py-4 text-lg font-medium border-2 border-purple-200 rounded-2xl focus:ring-4 focus:ring-purple-200 focus:border-purple-400 transition-all duration-200 bg-white shadow-sm hover:shadow-md"
+            className="w-full px-5 py-4 text-lg font-medium border-2 border-purple-300 rounded-2xl focus:ring-4 focus:ring-purple-300 focus:border-purple-500 transition-all duration-200 bg-white shadow-lg hover:shadow-xl"
             placeholder="Type your text here..."
             maxLength={5000}
           />
