@@ -30,13 +30,8 @@
   ],
   "redirects": [
     {
-      "source": "/font",
-      "destination": "/",
-      "permanent": true
-    },
-    {
       "source": "/fonts",
-      "destination": "/",
+      "destination": "/font",
       "permanent": true
     },
     {
@@ -59,3 +54,4 @@
     "NODE_ENV": "production"
   }
 }
+
