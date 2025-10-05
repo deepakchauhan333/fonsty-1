@@ -39,8 +39,13 @@ export default function Header() {
     setSelectedPlatform(selectedPlatform === platformId ? null : platformId);
   };
 
+  // Close dropdown when clicking outside
+  const closeDropdown = () => {
+    setSelectedPlatform(null);
+  };
+
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-gradient-to-r from-purple-600 via-pink-500 to-red-500 shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -48,8 +53,10 @@ export default function Header() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src="/logo.png?v=2" 
-                alt="FontForSocial.com" 
+                alt="Font Generator - Free Unicode Fonts for Social Media" 
                 className="h-16 w-auto object-contain"
+                width="200"
+                height="64"
                 onError={(e) => {
                   // Fallback to favicon if logo.png fails to load
                   e.currentTarget.src = '/favicon.webp';
@@ -58,72 +65,90 @@ export default function Header() {
             </Link>
           </div>
           
-          <nav className="hidden md:ml-6 md:flex md:space-x-4 lg:space-x-8">
-            <Link href="/about" className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+          <nav className="hidden md:ml-6 md:flex md:items-center md:space-x-4 lg:space-x-8">
+            <Link href="/about" className="text-white hover:text-yellow-200 px-3 py-2 rounded-md text-base font-medium transition-colors">
               About
             </Link>
             
-            <div className="relative group">
+            <div className="relative flex items-center">
               <button 
                 onClick={() => toggleDropdown('platforms')}
-                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                className="text-white hover:text-yellow-200 px-3 py-2 rounded-md text-base font-medium flex items-center transition-colors"
               >
                 Platforms
-                <svg className="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="ml-1 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
               
-              <div className={`absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 ${selectedPlatform === 'platforms' ? 'block' : 'hidden'}`}>
-                <div className="py-1 grid grid-cols-2 gap-1 p-2">
-                  {socialPlatforms.map((platform) => (
-                    <Link
-                      key={platform.id}
-                      href={`/${platform.id}`}
-                      className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded"
-                      onClick={() => setSelectedPlatform(null)}
-                    >
-                      <span className="mr-2">{platform.icon}</span>
-                      {platform.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+              {selectedPlatform === 'platforms' && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={closeDropdown}></div>
+                  <div className="absolute left-0 top-full mt-2 w-64 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-20 max-h-96 overflow-y-auto">
+                    <div className="py-2 grid grid-cols-2 gap-1 p-2">
+                      {socialPlatforms.map((platform) => (
+                        <Link
+                          key={platform.id}
+                          href={`/${platform.id}`}
+                          className="flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-purple-100 rounded transition-colors"
+                          onClick={closeDropdown}
+                        >
+                          <span className="mr-2">{platform.icon}</span>
+                          <span className="truncate">{platform.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
             
-            <div className="relative group">
+            <div className="relative flex items-center">
               <button 
                 onClick={() => toggleDropdown('fonts')}
-                className="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                className="text-white hover:text-yellow-200 px-3 py-2 rounded-md text-base font-medium flex items-center transition-colors"
               >
                 Fonts
-                <svg className="ml-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="ml-1 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>
               </button>
               
-              <div className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 ${selectedPlatform === 'fonts' ? 'block' : 'hidden'}`}>
-                <div className="py-1 grid grid-cols-1">
-                  {fontTypes.map((font) => (
-                    <Link
-                      key={font}
-                      href={`/${currentPlatform || 'facebook'}/${font}-font-generator`}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => setSelectedPlatform(null)}
-                    >
-                      {font.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+              {selectedPlatform === 'fonts' && (
+                <>
+                  <div className="fixed inset-0 z-10" onClick={closeDropdown}></div>
+                  <div className="absolute left-0 top-full mt-2 w-56 rounded-md shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-20 max-h-96 overflow-y-auto">
+                    <div className="py-2">
+                      {fontTypes.map((font) => (
+                        <Link
+                          key={font}
+                          href={`/${currentPlatform || 'facebook'}/${font}-font-generator`}
+                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-purple-100 transition-colors"
+                          onClick={closeDropdown}
+                        >
+                          {font.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
+            
+            <Link href="/font" className="text-white hover:text-yellow-200 px-3 py-2 rounded-md text-base font-medium transition-colors">
+              All Fonts
+            </Link>
+            
+            <Link href="/contact" className="text-white hover:text-yellow-200 px-3 py-2 rounded-md text-base font-medium transition-colors">
+              Contact
+            </Link>
           </nav>
           
           {/* Mobile menu button */}
           <div className="-mr-2 flex items-center md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-yellow-200 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-yellow-300"
             >
               <span className="sr-only">Open main menu</span>
               <svg
@@ -152,14 +177,28 @@ export default function Header() {
       </div>
 
       {/* Mobile menu, show/hide based on menu state. */}
-      <div className={`${isOpen ? 'block' : 'hidden'} md:hidden`}>
+      <div className={`${isOpen ? 'block' : 'hidden'} md:hidden bg-white`}>
         <div className="pt-2 pb-3 space-y-1">
           <Link
             href="/about"
-            className="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-gray-100"
+            className="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-purple-100"
             onClick={() => setIsOpen(false)}
           >
             About Us
+          </Link>
+          <Link
+            href="/font"
+            className="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-purple-100"
+            onClick={() => setIsOpen(false)}
+          >
+            All Fonts
+          </Link>
+          <Link
+            href="/contact"
+            className="block px-4 py-2 text-base font-medium text-gray-700 hover:bg-purple-100"
+            onClick={() => setIsOpen(false)}
+          >
+            Contact
           </Link>
           <div className="px-4 py-2 font-medium text-gray-900">Social Platforms</div>
           <div className="grid grid-cols-2 gap-1 px-4">
@@ -167,7 +206,7 @@ export default function Header() {
               <Link
                 key={platform.id}
                 href={`/${platform.id}`}
-                className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:bg-purple-100 rounded-md"
                 onClick={() => setIsOpen(false)}
               >
                 <span className="mr-2">{platform.icon}</span>
@@ -182,7 +221,7 @@ export default function Header() {
               <Link
                 key={font}
                 href={`/${currentPlatform || 'facebook'}/${font}-font-generator`}
-                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+                className="px-3 py-2 text-sm font-medium text-gray-700 hover:bg-purple-100 rounded-md"
                 onClick={() => setIsOpen(false)}
               >
                 {font.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}

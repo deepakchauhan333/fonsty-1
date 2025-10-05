@@ -47,9 +47,104 @@ export default function Page({ params }: PageProps) {
   
   const seoContent = generateSEOContent(platform, fontType, FONT_TYPES as unknown as string[]);
 
+  // Breadcrumb Schema
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: platformName,
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/${platform}`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: `${title} Generator`,
+        item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/${platform}/${fontType}`,
+      },
+    ],
+  };
+
+  // FAQ Schema
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: seoContent.faqs.items.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
+  // WebPage Schema with Author and Dates
+  const webPageSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: `${title} Generator for ${platformName}`,
+    description: `Create beautiful ${title.toLowerCase()} text for your ${platformName} posts, bios, and more.`,
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/${platform}/${fontType}`,
+    datePublished: '2025-09-04T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Font Generator',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/logo.png`,
+      },
+    },
+    breadcrumb: breadcrumbSchema,
+    mainEntity: {
+      '@type': 'SoftwareApplication',
+      name: `${title} Font Generator`,
+      applicationCategory: 'UtilityApplication',
+      operatingSystem: 'Any',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+      },
+      author: {
+        '@type': 'Person',
+        name: 'Deepak Chauhan',
+        url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      },
+    },
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <nav className="flex items-center text-sm text-gray-600 mb-6" aria-label="Breadcrumb">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <div className="container mx-auto px-4 py-8">
+        <nav className="flex items-center text-sm text-gray-600 mb-6" aria-label="Breadcrumb">
         <ol className="flex items-center space-x-1 md:space-x-3">
           <li className="inline-flex items-center">
             <Link href="/" className="text-blue-600 hover:text-blue-800">
@@ -76,11 +171,6 @@ export default function Page({ params }: PageProps) {
         </ol>
       </nav>
 
-      <h1 className="text-3xl font-bold mb-2">
-        {title} Generator for {platformName}
-      </h1>
-      <p className="text-gray-600 mb-8">Create beautiful {title.toLowerCase()} text for your {platformName} posts, bios, and more.</p>
-      
       <div className="bg-white rounded-lg border border-gray-200 p-6 shadow-sm">
         <FontGenerator fontType={fontType} platform={platform} />
       </div>
@@ -154,7 +244,8 @@ export default function Page({ params }: PageProps) {
             ))}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 
@@ -186,9 +277,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const fontStyle = formatTitle(params.fontType);
   const platformName = PLATFORM_NAMES[params.platform] || params.platform;
-  const title = `${fontStyle} Font Generator for ${platformName} – Free Unicode Text Tool`;
-  const description = `Transform your ${platformName} content with our ${fontStyle} font generator. Create 500+ unique Unicode ${fontStyle} text styles instantly. Free copy-paste tool for bios, captions, posts & more.`;
-  const url = `https://yourdomain.com/${params.platform}/${params.fontType}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com';
+  const title = `${fontStyle} ${platformName} Font Generator`;
+  const description = `Free ${fontStyle} font generator for ${platformName}. Create 500+ Unicode ${fontStyle.toLowerCase()} text styles. Copy & paste for bios, posts & captions.`;
+  const url = `${siteUrl}/${params.platform}/${params.fontType}`;
   
   const keywords = [
     `${fontStyle.toLowerCase()} font generator`,
@@ -224,14 +316,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       },
     },
     openGraph: {
-      title,
+      title: `${fontStyle} Font Generator for ${platformName}`,
       description,
       url,
       siteName: 'Font Generator',
       locale: 'en_US',
       type: 'website',
       images: [{
-        url: `https://yourdomain.com/api/og?title=${encodeURIComponent(fontStyle)}&platform=${params.platform}`,
+        url: `${siteUrl}/og-image.png`,
         width: 1200,
         height: 630,
         alt: `${fontStyle} Font Generator for ${platformName}`,
@@ -239,9 +331,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     },
     twitter: {
       card: 'summary_large_image',
-      title,
+      title: `${fontStyle} ${platformName} Fonts`,
       description,
-      images: [`https://yourdomain.com/api/og?title=${encodeURIComponent(fontStyle)}&platform=${params.platform}`],
+      images: [`${siteUrl}/og-image.png`],
       creator: '@fontgenerator',
     },
   };

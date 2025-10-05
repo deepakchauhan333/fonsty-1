@@ -2,12 +2,45 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy - Font Generator',
-  description: 'Read our privacy policy to understand how we handle your data when using our font generator tool.',
+  description: 'Read our privacy policy to understand how we handle your data when using our font generator tool. We prioritize your privacy and security.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/privacy`,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: 'Privacy Policy - Font Generator',
+    description: 'Learn how we protect your privacy and data.',
+    type: 'website',
+  },
 };
 
 export default function PrivacyPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Privacy Policy',
+    description: 'Privacy policy for Font Generator',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/privacy`,
+    datePublished: '2025-09-04T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold text-gray-900 mb-6">Privacy Policy</h1>
       
       <div className="prose prose-lg max-w-none text-gray-700">
@@ -120,6 +153,7 @@ export default function PrivacyPage() {
           </p>
         </section>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -2,13 +2,59 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'About Us - Font Generator',
-  description: 'Learn about our free online font generator tool that helps you create beautiful Unicode fonts for social media, websites, and more.',
+  title: 'About - Free Unicode Font Generator Tool',
+  description: 'Learn about our free font generator with 1000+ Unicode fonts for Instagram, Facebook, TikTok & more. Trusted by millions of creators worldwide since 2024.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/about`,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: 'About - Font Generator',
+    description: 'Free font generator with 1000+ Unicode fonts for social media. Trusted by millions.',
+    type: 'website',
+  },
 };
 
 export default function AboutPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About Font Generator',
+    description: 'Learn about Font Generator - a free Unicode font tool for social media',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/about`,
+    datePublished: '2025-09-04T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
+    mainEntity: {
+      '@type': 'Organization',
+      name: 'Font Generator',
+      url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com',
+      description: 'Free online font generator with 1000+ Unicode fonts for social media',
+      foundingDate: '2025',
+      founder: {
+        '@type': 'Person',
+        name: 'Deepak Chauhan',
+        url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      },
+      knowsAbout: ['Unicode fonts', 'Text styling', 'Social media tools', 'Typography', 'Font conversion'],
+    },
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold text-gray-900 mb-6">About Font Generator</h1>
       
       <div className="prose prose-lg max-w-none">
@@ -77,6 +123,7 @@ export default function AboutPage() {
           </p>
         </section>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

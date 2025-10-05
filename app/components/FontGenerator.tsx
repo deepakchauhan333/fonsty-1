@@ -85,8 +85,8 @@ export default function FontGenerator({ fontType, platform }: FontGeneratorProps
           ✨ Generate beautiful {formattedFontName.toLowerCase()} text for {platformName}. Click any style to copy instantly.
         </p>
         
-        <div className="mb-8">
-          <label htmlFor="inputText" className="block text-sm font-semibold text-gray-700 mb-3">
+        <div className="sticky top-16 z-40 bg-white pb-4 mb-4 shadow-sm">
+          <label htmlFor="inputText" className="block text-sm font-semibold text-gray-700 mb-3 pt-4">
             ✍️ Enter your text:
           </label>
           <input

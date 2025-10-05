@@ -2,12 +2,45 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Terms of Service - Font Generator',
-  description: 'Read our terms of service to understand the rules and guidelines for using our font generator tool.',
+  description: 'Read our terms of service to understand the rules and guidelines for using our font generator tool. Free to use for personal and commercial purposes.',
+  alternates: {
+    canonical: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/terms`,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: 'Terms of Service - Font Generator',
+    description: 'Terms and conditions for using Font Generator.',
+    type: 'website',
+  },
 };
 
 export default function TermsPage() {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Terms of Service',
+    description: 'Terms of service for Font Generator',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com'}/terms`,
+    datePublished: '2025-09-04T00:00:00Z',
+    dateModified: new Date().toISOString(),
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
+  };
+
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-4xl font-bold text-gray-900 mb-6">Terms of Service</h1>
       
       <div className="prose prose-lg max-w-none text-gray-700">
@@ -188,6 +221,7 @@ export default function TermsPage() {
           </p>
         </section>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

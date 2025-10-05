@@ -55,14 +55,28 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: { params: { platform: string } }) {
   const platform = params.platform.toLowerCase();
   const platformName = PLATFORM_NAMES[platform] || platform;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.fontforsocial.com';
   
   return {
-    title: `${platformName} Font Generator - Create Stylish Text for ${platformName}`,
-    description: `Free online tool to generate stylish fonts and text for ${platformName}. Create fancy, cool, and unique text for your ${platformName} posts, bios, and more.`,
+    title: `${platformName} Font Generator - Stylish Text`,
+    description: `Free ${platformName} font generator with 500+ Unicode styles. Create fancy, cursive, bold text for ${platformName} posts, bios & captions. Copy & paste instantly.`,
+    alternates: {
+      canonical: `${siteUrl}/${platform}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
     openGraph: {
-      title: `${platformName} Font Generator | Create Stylish Text`,
-      description: `Generate beautiful text styles for ${platformName} with our free online tool. No installation required!`,
+      title: `${platformName} Font Generator`,
+      description: `Generate beautiful text styles for ${platformName} with our free tool.`,
       type: 'website',
+      url: `${siteUrl}/${platform}`,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${platformName} Font Generator`,
+      description: `Create stylish fonts for ${platformName} instantly.`,
     },
   };
 }

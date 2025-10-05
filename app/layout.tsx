@@ -104,6 +104,13 @@ export default function RootLayout({
     description: siteDescription,
     applicationCategory: 'UtilityApplication',
     operatingSystem: 'Any',
+    datePublished: '2025-09-04T00:00:00Z',
+    author: {
+      '@type': 'Person',
+      name: 'Deepak Chauhan',
+      url: 'https://www.linkedin.com/in/deepakchauhan333/',
+      email: 'dc556316@gmail.com',
+    },
     offers: {
       '@type': 'Offer',
       price: '0',
@@ -122,11 +129,21 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
         <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="en" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        
+        {/* Preconnect to key origins for performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Favicon */}
         <link rel="icon" type="image/webp" href="/favicon.webp" />
         <link rel="icon" type="image/webp" sizes="32x32" href="/favicon.webp" />
         <link rel="icon" type="image/webp" sizes="16x16" href="/favicon.webp" />
         <link rel="apple-touch-icon" href="/favicon.webp" />
         <link rel="shortcut icon" href="/favicon.webp" />
+        
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
